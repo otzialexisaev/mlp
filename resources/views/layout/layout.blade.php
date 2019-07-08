@@ -8,8 +8,10 @@
     <title>Document</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    {{--<link rel="stylesheet" href="{{ asset('css/playercontainer.css') }}">--}}
-    <link rel="stylesheet" href="{{ asset('css/test.css') }}">
+    {{--<link rel="javascript" href="{{ asset('js/player/newautoplay.js') }}">--}}
+    <link rel="stylesheet" href="{{ asset('css/playercontainer.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/songsdisplay.css') }}">
+    {{--<link rel="stylesheet" href="{{ asset('css/test.css') }}">--}}
 </head>
 <body>
 <div class="container">
@@ -22,5 +24,6 @@
         crossorigin="anonymous"></script>
 <script src="/js/bootstrap.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+<script src="/js/player/newautoplay.js"></script>
 </body>
 </html>

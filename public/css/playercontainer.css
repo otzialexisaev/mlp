@@ -1,23 +1,43 @@
-#stickydiv {
-    min-width: 100%;
-    background-color: white;
-    height: 60px;
-    position: sticky;
-    top: 60px;
-    padding: 10px;
+#playercontainer {
+    margin-top: 3px;
+    width: 100%;
+    min-width: 508px;
+    height: 54px;
     border: 1px solid black;
-    padding: 10px;
     border-radius: 4px;
-    z-index: 99999;
+    display: flex;
+    position: sticky;
+    top: 10px;
+    background: white;
+    z-index: 99998;
+}
+
+.playerbuttons {
+    min-width: 150px;
+    justify-content: space-evenly;
+    display: flex;
+    align-items: center;
+}
+
+.leftSideBtns {
+    min-width: 150px;
+    justify-content: space-evenly;
+    display: flex;
+    align-items: center;
+}
+
+.rightSideBtns {
+    min-width: 150px;
+    justify-content: space-evenly;
+    display: flex;
+    align-items: center;
 }
 
 .btnWrapper {
+    float: left;
     height: 46px;
     width: 46px;
     transition-duration: 0.3s;
-    float: left;
-    margin-left: 10px;
-    margin-top: -4px;
     border: 3px solid #7FDBFF;
     border-radius: 4px;
 }
@@ -29,40 +49,37 @@
 #scrubber {
     float: left;
     height: 20px;
-    margin-top: 3px;
-    /*margin-left: 10px;*/
     border-radius: 4px;
-    /*background-color: green;*/
     background: -webkit-linear-gradient(left, #C9D6FF, rgb(201, 224, 255));
-    width: 720px;
+    width: 100%;
+    margin-top: 3px;
 }
 
-#progressBar {
+#scrubber #progressBar {
     background: -webkit-linear-gradient(left, #2a2c97, #4155c5, #2a2c97);
     width: 0px;
-    height: 20px;
+    height: inherit;
     border-radius: 4px;
 }
 
 .songInfoContainer {
-    float: left;
-    margin-top: -5px;
-    margin-left: 10px;
+    flex-grow: 1;
+    min-width: 208px;
+    padding: 0px 5px;
 }
 
 .songInfoContainer .titlePlusTime {
-    margin-top: 3px;
+    display: flex;
+    margin-top: 2px;
 }
 
 #songTitle {
-    float: left;
-    height: 20px;
-    width: 215px;
+    flex-grow: 1;
     overflow: hidden;
 }
 
 #songTime {
-    float: right;
+    /*float: right;*/
 }
 
 #playlistMenu {
@@ -77,13 +94,15 @@
 }
 
 #audioSliderContainer {
+    position: sticky;
+    top: -4px;
     width: 150px;
     /* Width of the outside container */
     transform: rotate(90deg);
     transform-origin: left;
-    position: relative;
-    left: 1183px;
-    top: -45px;
+    /*position: relative;*/
+    /*left: 1183px;*/
+    /*top: -45px;*/
 }
 
 /* The slider itself */

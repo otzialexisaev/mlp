@@ -9,8 +9,8 @@ class PagesController extends Controller
 {
   public function songs()
   {
-    $song = Song::find(1)->first();
-    return view('songs', ['song' => $song]);
+    $songs = Song::all();
+    return view('songs', ['songs' => $songs]);
   }
 
   public function index()
