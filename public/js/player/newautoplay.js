@@ -8,7 +8,7 @@ class PlayerInstance {
      * Проигрываемый трек
      */
     this.selected = null;
-    // this.audio.preload = auto;
+    this.audio.preload = true;
     this.randomBtn = document.getElementById('randomBtn');
     this.repeatAllBtn = document.getElementById('repeatAllBtn');
     this.repeatOneBtn = document.getElementById('repeatOneBtn');
@@ -52,7 +52,7 @@ class PlayerInstance {
     this.setSelected();
     this.songTitle.innerHTML = clicked.getAttribute('data-songname');
     this.audio.src = clicked.getAttribute('data-audio');
-    this.playPauseBtn.src = '../img/playercontainer/playBtn.jpg';
+    this.playPauseBtn.src = '../img/playercontainer/pauseBtn.jpg';
     this.audio.play();
   }
 

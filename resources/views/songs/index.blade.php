@@ -2,5 +2,7 @@
 @section('content')
     <audio id="audio"></audio>
     @include('player._playercontainer')
-    <?php App\Song::displaySongs() ?>
+    <div class='ostContainer'>
+        @each('songs._songContainer', $songs, 'song')
+    </div>
 @endsection

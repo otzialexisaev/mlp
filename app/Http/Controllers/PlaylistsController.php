@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Playlist;
+use App\PlaylistToSong;
+use App\Song;
 use Illuminate\Http\Request;
 
-class PlaylistController extends Controller
+class PlaylistsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +16,8 @@ class PlaylistController extends Controller
      */
     public function index()
     {
-        //
+        $playlists = Playlist::all();
+        return view('playlists.index', ['playlists' => $playlists]);
     }
 
     /**
@@ -45,7 +49,10 @@ class PlaylistController extends Controller
      */
     public function show($id)
     {
-        //
+        //todo
+        $relations = PlaylistToSong::where('playlist_id', $id)->pluck('song_id')->toArray();
+        $songs = Song::whereIn('id', $relations)->get();
+        return view('playlists.view', ['songs' => $songs, 'rels' => $relations]);
     }
 
     /**

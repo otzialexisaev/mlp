@@ -17,4 +17,6 @@
 
 Route::get('/', 'PagesController@index');
 
-Route::get('/songs', 'PagesController@songs');
+Route::get('/songs', 'SongsController@index');
+Route::get('/playlists', 'PlaylistsController@index');
+Route::get('/playlists/{id}', 'PlaylistsController@show');

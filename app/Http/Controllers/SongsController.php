@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Song;
 use Illuminate\Http\Request;
 
-class SongController extends Controller
+class SongsController extends Controller
 {
   /**
    * Display a listing of the resource.
@@ -14,7 +14,8 @@ class SongController extends Controller
    */
   public function index()
   {
-    //
+    $songs = Song::all();
+    return view('songs.index', ['songs' => $songs]);
   }
 
   /**

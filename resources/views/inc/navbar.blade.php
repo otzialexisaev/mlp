@@ -9,7 +9,7 @@
                 <a class="nav-link" href="/songs">Songs<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Features</a>
+                <a class="nav-link" href="/playlists">Playlists</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Pricing</a>

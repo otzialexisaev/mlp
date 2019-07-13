@@ -8,6 +8,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    color: darkblue;
+    font-size: 20px;
 }
 
 .playlistIcon p {
@@ -16,6 +18,10 @@
     overflow-wrap: break-word;
     text-align: center;
     font-weight: bold;
+}
+
+.playlistIcon:hover {
+    text-decoration: none;
 }
 
 .playlistIconContainer {
@@ -99,4 +105,22 @@
 .songMenu-item:hover {
     font-weight: bold;
     background: #ac4d8f;
+}
+
+/* Правила чтобы запретить юзеру выделять названия песен */
+
+.noselect {
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Safari */
+    -khtml-user-select: none;
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently
+                                    supported by Chrome and Opera */
 }

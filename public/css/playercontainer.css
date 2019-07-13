@@ -47,7 +47,6 @@
 }
 
 #scrubber {
-    float: left;
     height: 20px;
     border-radius: 4px;
     background: -webkit-linear-gradient(left, #C9D6FF, rgb(201, 224, 255));
