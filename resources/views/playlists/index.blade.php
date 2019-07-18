@@ -2,5 +2,7 @@
 @section('content')
     <audio id="audio"></audio>
     @include('player._playercontainer')
-    @each('playlists._playlistContainer', $playlists, 'playlist')
+    <div class="playlist-container">
+        @each('playlists._playlistContainer', $playlists, 'playlist')
+    </div>
 @endsection

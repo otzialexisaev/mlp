@@ -11,6 +11,8 @@
     {{--<link rel="javascript" href="{{ asset('js/player/newautoplay.js') }}">--}}
     <link rel="stylesheet" href="{{ asset('css/playercontainer.css') }}">
     <link rel="stylesheet" href="{{ asset('css/songsdisplay.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/playlists.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/songmenu.css') }}">
     {{--<link rel="stylesheet" href="{{ asset('css/test.css') }}">--}}
 </head>
 <body>
@@ -25,5 +27,6 @@
 <script src="/js/bootstrap.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 <script src="/js/player/newautoplay.js"></script>
+<script src="/js/menus/songMenu.js"></script>
 </body>
 </html>

@@ -1,0 +1,46 @@
+/* Выпадающее меню песни */
+
+/*#showSongMenuBtn {*/
+    /*background: url("../img/songMenu/songMenuDisplayBtn.png") no-repeat;*/
+    /*display: none;*/
+    /*position: relative;*/
+    /*float: right;*/
+    /*height: 40px;*/
+    /*width: 40px;*/
+    /*top: -10px;*/
+    /*border: none;*/
+    /*margin-bottom: -9999px;*/
+/*}*/
+
+#showSongMenuBtn {
+    background: url("../img/songMenu/songMenuDisplayBtn.png") no-repeat;
+    display: none;
+    position: absolute;
+    /* float: right; */
+    height: 100%;
+    width: 42px;
+    top: 0px;
+    right: 4px;
+}
+
+#songMenu {
+    display: none;
+    min-width: 200px;
+    position: absolute;
+    left: 40px;
+    top: 0px;
+    z-index: 9999;
+    background: #fff1e3;
+}
+
+.songMenu-item {
+    background: inherit;
+    color: black;
+    padding: 10px;
+    transition-duration: 0.5s;
+}
+
+.songMenu-item:hover {
+    font-weight: bold;
+    background: #ac4d8f;
+}
