@@ -1,7 +1,6 @@
 class SongMenu {
     constructor() {
-        this.songContainers = document.getElementsByClassName('song-menu-container');
-        this.currentContainer = null;
+        this.songContainers = document.getElementsByClassName('songContainer');
         this.menuBtn = null;
         this.menu = null;
         this.createMenu();
@@ -23,6 +22,8 @@ class SongMenu {
     /**
      * Создает меню с кнопкой и возвращает его.
      * Элементы меню получает через JSON запрос.
+     *
+     * @returns {HTMLElement}
      */
     createMenu() {
         //получаем элементы меню
@@ -44,24 +45,22 @@ class SongMenu {
         xhttp.send();
         let bump = document.createElement('div');
         bump.id = 'menuBump';
-        // let point = document.createElement('div');
-        // point.id = 'menuPoint';
-        // bump.appendChild(point);
-        bump.appendChild(menu);
+        let point = document.createElement('div');
+        point.id = 'menuPoint';
+        bump.appendChild(point);
+        point.appendChild(menu);
         this.menu = bump;
+        console.log(menu)
+        console.log(this.menu)
     }
 
     appendMenu(el) {
         el.appendChild(this.menu);
     }
 
-    toggleMenu(hide = false) {
-        if (!hide) {
-            if (this.menu.style.display != 'unset') {
-                this.menu.style.display = 'unset';
-            } else {
-                this.menu.style.display = 'none';
-            }
+    toggleMenu() {
+        if (this.menu.style.display != 'unset') {
+            this.menu.style.display = 'unset';
         } else {
             this.menu.style.display = 'none';
         }
@@ -76,7 +75,7 @@ class SongMenu {
         var self = this;
         for (var i = 0; i < self.songContainers.length; i++) {
             self.songContainers[i].addEventListener('mouseenter', function (e) {
-                self.appendBtn(e);
+                self.showBtn(e);
             });
             self.songContainers[i].addEventListener('mouseleave', function (e) {
                 self.hideBtn(e);
@@ -84,32 +83,18 @@ class SongMenu {
         }
         this.menuBtn.addEventListener('click', function() {
             self.toggleMenu();
-        });
-        console.log('menuBtnLitteners')
+        })
     }
 
     hideBtn(e) {
-        // for ( let i = 0; i < e.target.childNodes.length; i++) {
-        //     if (e.target.childNodes[i].nodeName == 'DIV' && e.target.childNodes[i].classList.contains("songContainer")) {
-        //         this.currentContainer = e.target.childNodes[i];
-        //         break;
-        //     }
-        // }
-        this.currentContainer.style.zIndex = 1;
-        this.currentContainer = null;
-        this.toggleMenu(true);
+        e.target.zIndex = 1000;
     }
 
-    appendBtn(e) {
-        for ( let i = 0; i < e.target.childNodes.length; i++ ) {
-            if (e.target.childNodes[i].nodeName == 'DIV' && e.target.childNodes[i].classList.contains("songContainer")) {
-                this.currentContainer = e.target.childNodes[i];
-                break;
-            }
-        }
-        this.currentContainer.style.zIndex = 10000;
+    showBtn(e) {
+        e.target.style.zIndex = 10000;
+        console.log(e.target)
         this.menuBtn.style.display = 'unset';
-        this.currentContainer.appendChild(this.menuBtn);
+        e.target.appendChild(this.menuBtn);
         this.appendMenu(e.target);
         // if(onMouseLeaveTimer){
         //     tempSongContainer = e;

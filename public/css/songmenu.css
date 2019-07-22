@@ -1,15 +1,15 @@
 /* Выпадающее меню песни */
 
 /*#showSongMenuBtn {*/
-    /*background: url("../img/songMenu/songMenuDisplayBtn.png") no-repeat;*/
-    /*display: none;*/
-    /*position: relative;*/
-    /*float: right;*/
-    /*height: 40px;*/
-    /*width: 40px;*/
-    /*top: -10px;*/
-    /*border: none;*/
-    /*margin-bottom: -9999px;*/
+/*background: url("../img/songMenu/songMenuDisplayBtn.png") no-repeat;*/
+/*display: none;*/
+/*position: relative;*/
+/*float: right;*/
+/*height: 40px;*/
+/*width: 40px;*/
+/*top: -10px;*/
+/*border: none;*/
+/*margin-bottom: -9999px;*/
 /*}*/
 
 #showSongMenuBtn {
@@ -18,18 +18,32 @@
     position: absolute;
     /* float: right; */
     height: 100%;
-    width: 42px;
+    width: 46px;
     top: 0px;
-    right: 4px;
+    right: 0px;
 }
 
+/*#songMenu {*/
+    /*display: none;*/
+    /*min-width: 200px;*/
+    /*position: absolute;*/
+    /*left: 40px;*/
+    /*top: 0px;*/
+    /*z-index: 9999;*/
+    /*background: #fff1e3;*/
+/*}*/
+
 #songMenu {
-    display: none;
-    min-width: 200px;
+    border-radius: 0px 0px 10px 10px;
+    /*display: table;*/
+    min-width: 100%;
     position: absolute;
-    left: 40px;
+    left: 0px;
     top: 0px;
-    z-index: 9999;
+    /*bottom: 0px;*/
+    padding-bottom: 10px;
+    padding-top: 10px;
+    z-index: 10;
     background: #fff1e3;
 }
 
@@ -43,4 +57,16 @@
 .songMenu-item:hover {
     font-weight: bold;
     background: #ac4d8f;
+}
+
+#menuBump {
+    display: none;
+    position: absolute;
+    width: 100%;
+    bottom: 10px;
+    left: 0px;
+}
+
+#menuPoint {
+    position: relative;
 }
