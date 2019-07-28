@@ -1,363 +1,242 @@
 class PlayerInstance {
-  constructor () {
-    /**
-     * Аудио-тег
-     */
-    this.audio = document.getElementById('audio');
-    /**
-     * Проигрываемый трек
-     */
-    this.selected = null;
-    this.audio.preload = true;
-    this.randomBtn = document.getElementById('randomBtn');
-    this.repeatAllBtn = document.getElementById('repeatAllBtn');
-    this.repeatOneBtn = document.getElementById('repeatOneBtn');
-    this.prevBtn = document.getElementById('prevBtn');
-    this.nextBtn = document.getElementById('nextBtn');
-    this.playPauseBtn = document.getElementById('playPauseBtn');
-    this.randomBool = false;
-    this.repeatAllBool = false;
-    this.repeatOneBool = false;
-    this.songTitle = document.getElementById('songTitle');
-    // this.playlistBtn = document.getElementById('playlistBtn');
-    // this.playlistMenu = document.getElementById('playlistMenu');
-    this.volumeSlider = document.getElementById('myRange');
-    this.volumeSlider.value = 9;
-    this.audio.volume = 0.009;
-    this.progress = document.getElementById('progressBar');
-    this.scrubber = document.getElementById('scrubber');
-    this.setListeners();
-  }
+    constructor() {
+        this.audio = {
+            instance: document.getElementById('audio'),
+            preload: true,
+            volume: 0,
+            setSrc(source) {
+                this.instance.src = source;
+            },
+            setCurrent(current, width) {
+                // this.instance.duration = duration;
+                this.instance.currentTime =
+                    (this.instance.duration / 100) *
+                    ((current / width) * 100)
+            },
+            playPause() {
+                if (this.instance.paused) {
+                    this.instance.volume = 0.2;
+                    this.instance.play();
+                } else {
+                    // this.fadeOut();
+                    // this.fadeOut();
+                    // console.log(this.instance.volume)
 
-  /**
-   * Главная функция.
-   *
-   * @param {element} clicked
-   */
-  clicked (clicked) {
-    if (this.checkDoubleClick(clicked)) {
-      if (this.audio.paused) {
-        this.playPauseBtn.src = '../img/playercontainer/pauseBtn.jpg';
-        this.audio.play()
-      } else {
-        this.playPauseBtn.src = '../img/playercontainer/playBtn.jpg';
-        this.audio.pause()
-      }
-      return
-    }
-    if (this.selected) {
-      this.selected.classList.remove('selected')
-    }
-    clicked.classList.add('selected');
-    this.setSelected();
-    this.songTitle.innerHTML = clicked.getAttribute('data-songname');
-    this.audio.src = clicked.getAttribute('data-audio');
-    this.playPauseBtn.src = '../img/playercontainer/pauseBtn.jpg';
-    this.audio.play();
-  }
+                    //петля смерти - не запускать
+                    // while (this.instance.volume > 0 ) {
+                    //     setTimeout(this.fadeOut, 200);
+                    // }
+                    this.instance.pause();
+                }
+            },
+            isPaused() {
+                if (this.instance.paused) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            ,
+            fadeOut() {
+                this.instance.volume = this.instance.volume - 0.1;
+            }
+        };
+        this.songs = {
+            all: document.getElementsByClassName('songContainer'),
+            setCurrent(index) {
+                if (this.current.instance != null) {
+                    this.current.unselect()
+                }
+                this.current.index = index;
+                this.current.instance = this.all[index];
+                this.current.path = this.getPathByIndex(index);
+                this.current.title = this.getTitleByIndex(index);
+                this.current.select();
+            },
+            getPathByIndex(index) {
+                return this.all[index].dataset.audio;
+            },
+            getTitleByIndex(index) {
+                return this.all[index].dataset.songname;
+            },
+            getCurrent() {
+                return this.current;
+            },
+            current: {
+                instance: null,
+                index: null,
+                path: null,
+                title: null,
+                getPath() {
+                    return this.path;
+                },
+                getIndex() {
+                    return this.index;
+                },
+                getTitle() {
+                    return this.title;
+                },
+                select() {
+                    this.instance.classList.add('selected');
 
-  /**
-   * Проверяет был ли нажат уже играющий трек.
-   *
-   * @param {element} clicked Переданный нажатый элемент
-   */
-  checkDoubleClick (clicked) {
-    if (clicked === this.selected) {
-      return true;
-    }
-  }
+                },
+                unselect() {
+                    this.instance.classList.remove('selected');
+                },
+            }
+        };
+        this.controls = {
+            play: document.getElementById('playPauseBtn'),
+            next: document.getElementById('nextBtn'),
+            prev: document.getElementById('prevBtn'),
+            togglePlayPauseBtn(paused) {
+                if (paused) {
+                    this.play.src = '../../img/playercontainer/playBtn.jpg';
+                } else {
+                    this.play.src = '../../img/playercontainer/pauseBtn.jpg';
+                }
+            },
+        };
+        this.scrubber = {
+            instance: document.getElementById('scrubber'),
+            progress: document.getElementById('progressBar'),
+            update(duration, current) {
+                var oneWidthPercent = this.instance.offsetWidth / 100;
+                this.progress.setAttribute(
+                    'style',
+                    'width: ' + (current / duration) * oneWidthPercent * 100 + 'px'
+                );
+            },
+            getClickedDuration(e) {
+                var relativeLeft = e.clientX - leftPos(this.instance);
+                return relativeLeft;
 
-  /**
-   * Передает играющий трек в экземпляр
-   */
-  setSelected () {
-    this.selected = document.querySelector('.selected');
-  }
-  /**
-   * Функция проигрывания следующего трека.
-   *
-   * Если this.randomBool == true, то случайное количество раз перематывает трек
-   * передавая следующий эдемент nextElementSibling в функцию clicked, и выходит.
-   * Если существует this.selected и this.selected.nextElementSibling, вызывает
-   * функцию clicked передавая следующий элемент nextElementSibling.
-   * Если существует this.selected и this.repeatAllBool==true, то вызывает функцию
-   * skipToStart().
-   */
-  playNext () {
-    if (this.randomBool) {
-      for (var i = 0; i < Math.floor(Math.random() * 100) + 1; i++) {
-        if (this.selected.nextElementSibling) {
-          this.clicked(this.selected.nextElementSibling);
-        } else {
-          this.skipToStart();
+                function leftPos(elem) {
+                    var curleft = 0;
+                    if (elem.offsetParent) {
+                        do {
+                            curleft += elem.offsetLeft;
+                        } while ((elem = elem.offsetParent))
+                    }
+                    return curleft;
+                }
+            }
+        };
+        this.songTime = {
+            instance: document.getElementById('songTime'),
+            update(duration, current) {
+                if (Number.isNaN(duration)) {
+                    return;
+                }
+                var dur2min =
+                    Math.floor(duration / 60) +
+                    ':' +
+                    pad(Math.floor(duration - Math.floor(duration / 60) * 60), 2);
+                var cur2min =
+                    Math.floor(current / 60) +
+                    ':' +
+                    pad(
+                        Math.floor(
+                            current -
+                            Math.floor(current / 60) * 60
+                        ),
+                        2
+                    );
+                this.instance.innerHTML = cur2min + ' - ' + dur2min;
+
+                function pad(number, length) {
+                    var str = '' + number;
+                    while (str.length < length) {
+                        str = '0' + str;
+                    }
+                    return str;
+                }
+            }
+        };
+        this.songTitle = {
+            instance: document.getElementById('songTitle'),
+            update(title) {
+                this.instance.innerHTML = title;
+            }
+        };
+        this.setListeners();
+    };
+
+    init() {
+        this.audio.instance = document.getElementById('audio');
+        this.audio.instance.preload = "auto"
+    }
+
+    setListeners() {
+        var self = this;
+        for (let i = 0; i < this.songs.all.length; i++) {
+            this.songs.all[i].addEventListener('click', function () {
+                self.play(i);
+            })
         }
-      }
-      return;
+        this.audio.instance.addEventListener('ended', function () {
+            self.songEnded();
+        });
+
+        this.controls.play.addEventListener('click', function () {
+            if (!self.songs.getCurrent().getIndex()) {
+                self.songs.setCurrent(0);
+            }
+            self.play(self.songs.getCurrent().getIndex());
+        });
+
+        this.controls.next.addEventListener('click', function () {
+            self.playNext();
+        });
+
+        this.controls.prev.addEventListener('click', function () {
+            self.playPrev();
+        });
+
+        this.audio.instance.addEventListener('timeupdate', function () {
+            self.scrubber.update(self.audio.instance.duration, self.audio.instance.currentTime);
+            self.songTime.update(self.audio.instance.duration, self.audio.instance.currentTime);
+        });
+
+        this.scrubber.instance.addEventListener('click', function (e) {
+
+            self.audio.setCurrent(self.scrubber.getClickedDuration(e), self.scrubber.instance.offsetWidth)
+        });
     }
 
-    if (this.selected && this.selected.nextElementSibling) {
-      this.clicked(this.selected.nextElementSibling);
-      return;
+    songEnded() {
     }
 
-    if (this.selected && this.repeatAllBool) {
-      this.skipToStart();
-    }
-  }
-
-  /**
-   * Функция проигрывания первого трека.
-   */
-  skipToStart () {
-    while (this.selected.previousElementSibling) {
-      this.setSelected();
-      this.playPrev();
-    }
-  }
-
-  /**
-   * Функция проигрывания предыдущего трека.
-   */
-  playPrev () {
-    this.setSelected();
-    if (this.selected && this.selected.previousElementSibling) {
-      this.clicked(this.selected.previousElementSibling);
-    }
-  }
-
-  /**
-   * Функция проигрывания случайного трека.
-   */
-  playRandom () {
-    for (var i = 0; i < Math.floor(Math.random() * 100) + 1; i++) {
-      this.playNext();
-    }
-  }
-
-  /**
-   * Функция проигрывания того же трека.
-   */
-  playSame () {
-    this.setSelected();
-    this.clicked(this.selected);
-  }
-
-  /**
-   * Прослушивание кликов кнопок и др.
-   */
-  setListeners () {
     /**
-     * Хранит ссылку на объект PlayerInstance
-     */
-    var _self = this;
-    /**
-     * Прослушивание клика по кнопке randomBtn
-     */
-    _self.randomBtn.addEventListener('click', function (e) {
-      if (_self.randomBool) {
-        _self.randomBool = false;
-        e.target.parentNode.classList.remove('btnHighlight');
-      } else {
-        _self.randomBool = true;
-        e.target.parentNode.classList.add('btnHighlight');
-      }
-    });
-
-    /**
-     * Прослушивание клика по кнопке repeatAllBtn
-     */
-    _self.repeatAllBtn.addEventListener('click', function (e) {
-      if (_self.repeatAllBool) {
-        _self.repeatAllBool = false;
-        e.target.parentNode.classList.remove('btnHighlight');
-      } else {
-        _self.repeatAllBool = true;
-        e.target.parentNode.classList.add('btnHighlight');
-      }
-    });
-
-    /**
-     * Прослушивание ползунка громкости
-     */
-    _self.volumeSlider.oninput = function () {
-      // console.log(volumeSlider.value)
-      _self.audio.volume = _self.volumeSlider.value / 100;
-      console.log(_self.audio.volume);
-    };
-
-    /**
-     * Прослушивание клика по кнопке repeatOneBtn
-     */
-    _self.repeatOneBtn.addEventListener('click', function (e) {
-      if (_self.repeatOneBool) {
-        _self.repeatOneBool = false;
-        e.target.parentNode.classList.remove('btnHighlight');
-      } else {
-        _self.repeatOneBool = true;
-        e.target.parentNode.classList.add('btnHighlight');
-      }
-    });
-
-    /**
-     * Прослушивание клика по кнопке playPauseBtn
-     */
-    _self.playPauseBtn.onclick = function () {
-      if (_self.selected == null) {
-        _self.clicked(document.querySelector('.songContainer'));
-        return;
-      }
-      _self.clicked(_self.selected);
-    };
-
-    /**
-     * Прослушивание клика по кнопке nextBtn
-     */
-    _self.nextBtn.onclick = function () {
-      _self.playNext();
-    };
-
-    /**
-     * Прослушивание клика по кнопке prevBtn
-     */
-    _self.prevBtn.onclick = function () {
-      _self.playPrev();
-    };
-    /**
-     * Прослушивание события timeupdate аудио-тега.
+     * Проверяет совпадает ли индекс текущего элемента с переданным.
+     * Если нет - задает текущий трек и src в аудио.
+     * Запускает переключатель плей/пауза.
      *
-     * Обновляет ползунок прогресса, место для названия песни, время проигрывания.
+     * @param index - индекс нажатого контейнера.
      */
-    _self.audio.addEventListener('timeupdate', updateScrubber);
-
-    function updateScrubber () {
-      var songTime = document.getElementById('songTime');
-      var duration = _self.audio.duration;
-      var percentDuration = _self.audio.currentTime / duration;
-      var oneWidthPercent = _self.scrubber.offsetWidth / 100;
-      // Если продолжительность трека == NaN, не обрабатвать функцию
-      // Это нужно чтобы не выводилось NaN во времени трека при загрузке страницы
-      if(Number.isNaN(_self.audio.duration)){
-        console.log(_self.audio.duration);
-        return;
-      }
-      var dur2min =
-        Math.floor(duration / 60) +
-        ':' +
-        pad(Math.floor(duration - Math.floor(duration / 60) * 60), 2);
-      var cur2min =
-        Math.floor(_self.audio.currentTime / 60) +
-        ':' +
-        pad(
-          Math.floor(
-            _self.audio.currentTime -
-              Math.floor(_self.audio.currentTime / 60) * 60
-          ),
-          2
-        );
-      songTime.innerHTML = cur2min + ' - ' + dur2min;
-      _self.progress.setAttribute(
-        'style',
-        'width: ' + percentDuration * oneWidthPercent * 100 + 'px'
-      )
+    play(index) {
+        if (this.songs.getCurrent().getIndex() == index) {
+            this.audio.playPause();
+            this.controls.togglePlayPauseBtn(this.audio.isPaused());
+            return;
+        }
+        this.songs.setCurrent(index);
+        this.songTitle.update(this.songs.getCurrent().getTitle());
+        this.audio.setSrc(this.songs.getCurrent().getPath());
+        this.audio.playPause();
+        this.controls.togglePlayPauseBtn(this.audio.isPaused());
     }
 
-    /**
-     * Функция для отображения знаков с добавленными нулями(2=>02).
-     *
-     * @param {int} number
-     * @param {int} length
-     */
-    function pad (number, length) {
-      var str = '' + number;
-      while (str.length < length) {
-        str = '0' + str;
-      }
-      return str;
-    }
-    /**
-     * Прослушивание клика по ползунку проигрывания.
-     */
-    _self.scrubber.addEventListener('click', function (e) {
-      var relativeLeft = e.clientX - leftPos(_self.scrubber);
-      _self.audio.currentTime =
-        (_self.audio.duration / 100) *
-        ((relativeLeft / _self.scrubber.offsetWidth) * 100)
-    });
-
-    function leftPos (elem) {
-      var curleft = 0;
-      if (elem.offsetParent) {
-        do {
-          curleft += elem.offsetLeft;
-        } while ((elem = elem.offsetParent))
-      }
-      return curleft;
-    }
-    /**
-     * Прослушивание события ended аудио-тега
-     */
-    _self.audio.addEventListener('ended', songEnded);
-
-    /**
-     * Обрабатывает переключатели и выбирает нужную функцию проигрывания.
-     */
-    function songEnded () {
-      _self.setSelected();
-      if (_self.repeatOneBool) {
-        _self.playSame();
-        return;
-      }
-
-      if (_self.randomBool) {
-        _self.playRandom();
-        return;
-      }
-
-      if (_self.selected && _self.selected.nextElementSibling) {
-        _self.playNext();
-        return;
-      }
-
-      if (_self.repeatAllBool) {
-        _self.skipToStart();
-      }
+    playNext() {
+        let index = this.songs.getCurrent().getIndex();
+        this.play(++index);
     }
 
-    /**
-     * Запреты на перенос картинок-кнопок.
-     */
-    _self.prevBtn.ondragstart = function () {
-      return false;
-    };
-    _self.playPauseBtn.ondragstart = function () {
-      return false;
-    };
-    _self.nextBtn.ondragstart = function () {
-      return false;
-    };
-    _self.randomBtn.ondragstart = function () {
-      return false;
-    };
-    _self.repeatAllBtn.ondragstart = function () {
-      return false;
-    };
-    _self.repeatOneBtn.ondragstart = function () {
-      return false;
-    };
-
-    /**
-     * Обновление ползунка прогресса при изменении размера страницы.
-     */
-    window.addEventListener('resize', updateScrubber())
-  }
+    playPrev() {
+        let index = this.songs.getCurrent().getIndex();
+        this.play(--index);
+    }
 }
 
 var Player = new PlayerInstance();
-
-// document.getElementById('testdiv').innerHTML = "asdasd"
-console.log(Player)
-document.addEventListener('click', function (e) {
-  if (e.target.classList.contains('songContainer')) {
-    Player.clicked(e.target);
-  }
-});
+Player.init();

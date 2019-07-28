@@ -64,6 +64,7 @@
     background: -webkit-linear-gradient(left, #C9D6FF, rgb(201, 224, 255));
     width: 100%;
     margin-top: 3px;
+    overflow: hidden;
 }
 
 #scrubber #progressBar {

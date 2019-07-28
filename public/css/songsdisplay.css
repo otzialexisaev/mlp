@@ -16,13 +16,13 @@
     height: 100%;
     min-width: 100%;
     position: relative;
-    background: -webkit-linear-gradient(left, rgb(223, 228, 248), rgb(223, 228, 248), rgb(223, 228, 248));
-    /*background: rgb(223, 228, 248);*/
+    /*background: -webkit-linear-gradient(left, rgb(223, 228, 248), rgb(223, 228, 248), rgb(223, 228, 248));*/
+    background: rgb(223, 228, 248);
     text-align: center;
     border-radius: 10px;
     font-size: 15px;
     padding: 10px;
-    transition-duration: 0.5s;
+    transition-duration: 0.7s;
 }
 /* Hover rules */
 
@@ -45,10 +45,9 @@
 }
 
 .selected {
-    font-weight: bold;
+    /*font-weight: bold;*/
     color: white;
-    background-color: #2b3492 !important;
-    transition: 0.7s;
+    background: #2b3492 !important;
 }
 
 

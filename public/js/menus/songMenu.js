@@ -10,7 +10,7 @@ class SongMenu {
     }
 
     /**
-     * Создает кнопку меню песен
+     * Создает кнопку меню песен и прицепляет прослушивание на контейнеры песен и клики по кнопке меню.
      */
     createMenuBtn() {
         var menuBtn = document.createElement('div');
@@ -21,7 +21,7 @@ class SongMenu {
     }
 
     /**
-     * Создает меню с кнопкой и возвращает его.
+     * Создает меню.
      * Элементы меню получает через JSON запрос.
      */
     createMenu() {
@@ -42,13 +42,10 @@ class SongMenu {
             }
         };
         xhttp.send();
-        let bump = document.createElement('div');
-        bump.id = 'menuBump';
-        // let point = document.createElement('div');
-        // point.id = 'menuPoint';
-        // bump.appendChild(point);
-        bump.appendChild(menu);
-        this.menu = bump;
+        let menuIndent = document.createElement('div');
+        menuIndent.id = 'menuBump';
+        menuIndent.appendChild(menu);
+        this.menu = menuIndent;
     }
 
     appendMenu(el) {
@@ -83,18 +80,13 @@ class SongMenu {
             });
         }
         this.menuBtn.addEventListener('click', function() {
+            event.stopPropagation();
             self.toggleMenu();
         });
         console.log('menuBtnLitteners')
     }
 
     hideBtn(e) {
-        // for ( let i = 0; i < e.target.childNodes.length; i++) {
-        //     if (e.target.childNodes[i].nodeName == 'DIV' && e.target.childNodes[i].classList.contains("songContainer")) {
-        //         this.currentContainer = e.target.childNodes[i];
-        //         break;
-        //     }
-        // }
         this.currentContainer.style.zIndex = 1;
         this.currentContainer = null;
         this.toggleMenu(true);
@@ -111,31 +103,6 @@ class SongMenu {
         this.menuBtn.style.display = 'unset';
         this.currentContainer.appendChild(this.menuBtn);
         this.appendMenu(e.target);
-        // if(onMouseLeaveTimer){
-        //     tempSongContainer = e;
-        //     return;
-        // }
-        // if (e.target.contains(self.menu)) {
-        //     return;
-        // }
-
-        // else {
-        //     // смотрит если меню видимо - не переносит его на див на который указывает мышь
-        //     var songMenu = document.getElementById('songMenu');
-        //     if (songMenu.style.display == 'unset') {
-        //         return;
-        //     }
-        // }
-
-        // console.log(clone.childNodes)
-
-        // document.getElementById('songMenu').addEventListener('mouseenter', function(){
-        //     onMouseLeaveTimer = false;
-        // });
-        // document.getElementById('songMenu').addEventListener('mouseleave', function(){
-        //     onMouseLeaveMenu(e)
-        // });
-        // addItemClickListeners();
     }
 }
 
