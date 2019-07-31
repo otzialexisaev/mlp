@@ -1,14 +1,8 @@
 <div id="playercontainer">
     <div class="playerbuttons">
-        <div class="btnWrapper">
-            <img src="{{asset('img/playercontainer/prevBtn.jpg')}}" id="prevBtn">
-        </div>
-        <div class="btnWrapper">
-            <img src="{{asset('img/playercontainer/playBtn.jpg')}}" id="playPauseBtn">
-        </div>
-        <div class="btnWrapper">
-            <img src="{{asset('img/playercontainer/nextBtn.jpg')}}" id="nextBtn">
-        </div>
+        <img src="{{asset('img/playercontainer/prevBtn.jpg')}}" id="prevBtn" class="btnWrapper">
+        <img src="{{asset('img/playercontainer/playBtn.jpg')}}" id="playPauseBtn" class="btnWrapper">
+        <img src="{{asset('img/playercontainer/nextBtn.jpg')}}" id="nextBtn" class="btnWrapper">
     </div>
 
     <div class="songInfoContainer">
@@ -21,17 +15,9 @@
         </div>
     </div>
     <div class="playerbuttons">
-        <div class="btnWrapper">
-            <img src="{{asset('img/playercontainer/randomBtn.jpg')}}" id="randomBtn">
-        </div>
-
-        <div class="btnWrapper">
-            <img src="{{asset('img/playercontainer/repeatAllBtn.jpg')}}" id="repeatAllBtn">
-        </div>
-
-        <div class="btnWrapper">
-            <img src="{{asset('img/playercontainer/repeatOneBtn.jpg')}}" id="repeatOneBtn">
-        </div>
+        <img src="{{asset('img/playercontainer/randomBtn.jpg')}}" id="randomBtn" class="btnWrapper">
+        <img src="{{asset('img/playercontainer/repeatAllBtn.jpg')}}" id="repeatAllBtn" class="btnWrapper">
+        <img src="{{asset('img/playercontainer/repeatOneBtn.jpg')}}" id="repeatOneBtn" class="btnWrapper">
     </div>
     <div style="position: absolute;top: -16px;right: -164px;/* float: right; */">
         <div id="audioSliderContainer">
