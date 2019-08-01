@@ -15,7 +15,7 @@ class PlayerInstance {
             },
             playPause() {
                 if (this.instance.paused) {
-                    this.instance.volume = 0.02;
+                    // this.instance.volume = 0.02;
                     this.instance.play();
                 } else {
                     // this.fadeOut();
@@ -206,12 +206,18 @@ class PlayerInstance {
                 this.instance.innerHTML = title;
             }
         };
+        this.volumeSlider = {
+            instance : document.getElementById('myRange'),
+
+        };
         this.setListeners();
     };
 
     init() {
         this.audio.instance = document.getElementById('audio');
-        this.audio.instance.preload = "auto"
+        this.audio.instance.preload = "auto";
+        this.audio.instance.volume = 0.05;
+        this.volumeSlider.instance.min = 0;
     }
 
     setListeners() {
@@ -264,6 +270,14 @@ class PlayerInstance {
         this.scrubber.instance.addEventListener('click', function (e) {
             self.audio.setCurrent(self.scrubber.getClickedDuration(e), self.scrubber.instance.offsetWidth)
         });
+
+        this.volumeSlider.instance.addEventListener('input', function () {
+            self.audio.instance.volume = self.volumeSlider.instance.value / 1000;
+        });
+
+        // this.volumeSlider.instance.oninput = function () {
+        //     self.audio.instance.volume = self.volumeSlider.instance.value / 1000;
+        // };
     }
 
     songEnded() {
