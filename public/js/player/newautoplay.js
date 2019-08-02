@@ -55,7 +55,7 @@ class PlayerInstance {
             },
         };
         this.songs = {
-            all: document.getElementsByClassName('songContainer'),
+            all: document.getElementsByClassName('song-container'),
             setCurrent(index) {
                 if (this.current.instance != null) {
                     this.current.unselect()

@@ -14,7 +14,7 @@ class SongMenu {
      */
     createMenuBtn() {
         var menuBtn = document.createElement('div');
-        menuBtn.id = 'showSongMenuBtn';
+        menuBtn.id = 'songmenu-btn';
         document.body.appendChild(menuBtn);
         this.menuBtn = menuBtn;
         this.appendMenuBtnListeners();
@@ -27,17 +27,17 @@ class SongMenu {
     createMenu() {
         //создаем блок меню и добавляем в него пункт настройки песни и пункт с раздвижным подменю по наведению.
         let menu = document.createElement('div');
-        menu.id = 'songMenu';
+        menu.id = 'songmenu';
         let menuSettingsItem = document.createElement('div');
         menuSettingsItem.id = 'song-settings-item';
-        menuSettingsItem.className = 'songMenu-item noselect';
+        menuSettingsItem.className = 'songmenu-item notextselect';
         menuSettingsItem.innerText = 'Настройки песни';
         menu.appendChild(menuSettingsItem);
         let submenuContainer = document.createElement('div');
         submenuContainer.className = 'submenu-container';
         let mainSubmenuContainer = document.createElement('div');
         mainSubmenuContainer.id = 'add-to-playlist-expandable';
-        mainSubmenuContainer.className = 'songMenu-item noselect';
+        mainSubmenuContainer.className = 'songmenu-item notextselect';
         mainSubmenuContainer.innerText = 'Добавить в плейлист';
 
         //получаем элементы подменю
@@ -47,7 +47,7 @@ class SongMenu {
             let playlists = JSON.parse(this.responseText);
             for (let i = 0; i < playlists.length; i++) {
                 let submenuItem = document.createElement('div');
-                submenuItem.className = 'songMenu-item submenu-item noselect';
+                submenuItem.className = 'songmenu-item songmenu-submenu-item notextselect';
                 submenuItem.setAttribute('data-id', playlists[i].id);
                 submenuItem.innerText = playlists[i].name;
                 submenuContainer.appendChild(submenuItem);
@@ -55,19 +55,19 @@ class SongMenu {
         };
         xhttp.send();
         let menuIndent = document.createElement('div');
-        menuIndent.id = 'menuBump';
+        menuIndent.id = 'songmenu-pointer';
         submenuContainer.appendChild(mainSubmenuContainer);
         menu.appendChild(submenuContainer);
         menuIndent.appendChild(menu);
         this.menu = menuIndent;
         submenuContainer.addEventListener('mouseenter', function(){
-            let submenuItems = document.getElementsByClassName('submenu-item');
+            let submenuItems = document.getElementsByClassName('songmenu-submenu-item');
             for (let i = 0; i < submenuItems.length; i++) {
                 submenuItems[i].style.display = 'inherit';
             }
         });
         submenuContainer.addEventListener('mouseleave', function(){
-            let submenuItems = document.getElementsByClassName('submenu-item');
+            let submenuItems = document.getElementsByClassName('songmenu-submenu-item');
             for (let i = 0; i < submenuItems.length; i++) {
                 submenuItems[i].style.display = 'none';
             }
@@ -120,7 +120,7 @@ class SongMenu {
 
     appendBtn(e) {
         for ( let i = 0; i < e.target.childNodes.length; i++ ) {
-            if (e.target.childNodes[i].nodeName == 'DIV' && e.target.childNodes[i].classList.contains("songContainer")) {
+            if (e.target.childNodes[i].nodeName == 'DIV' && e.target.childNodes[i].classList.contains("song-container")) {
                 this.currentContainer = e.target.childNodes[i];
                 break;
             }

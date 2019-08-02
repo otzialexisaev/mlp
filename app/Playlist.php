@@ -11,7 +11,7 @@ class Playlist extends Model
   static public function displayPlaylists()
   {
     $playlists = Playlist::all();
-    echo "<div class='ostContainer'>";
+    echo "<div class='ost-container'>";
     foreach ($playlists as $playlist) {
       $playlist->displayOne();
     }
