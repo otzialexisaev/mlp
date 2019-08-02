@@ -47,7 +47,18 @@
     background: #fff1e3;
 }
 
+.song-submenu-indent {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+}
+
+.submenu-item {
+    display: none;
+}
+
 .songMenu-item {
+    position: relative;
     background: inherit;
     color: black;
     padding: 10px;

@@ -1,6 +1,7 @@
 class SongMenu {
     constructor() {
-        this.songContainers = document.getElementsByClassName('songContainer');
+        this.songContainers = document.getElementsByClassName('song-menu-container');
+        this.currentContainer = null;
         this.menuBtn = null;
         this.menu = null;
         this.createMenu();
@@ -9,7 +10,7 @@ class SongMenu {
     }
 
     /**
-     * Создает кнопку меню песен
+     * Создает кнопку меню песен и прицепляет прослушивание на контейнеры песен и клики по кнопке меню.
      */
     createMenuBtn() {
         var menuBtn = document.createElement('div');
@@ -20,10 +21,8 @@ class SongMenu {
     }
 
     /**
-     * Создает меню с кнопкой и возвращает его.
+     * Создает меню.
      * Элементы меню получает через JSON запрос.
-     *
-     * @returns {HTMLElement}
      */
     createMenu() {
         //получаем элементы меню
@@ -43,24 +42,23 @@ class SongMenu {
             }
         };
         xhttp.send();
-        let bump = document.createElement('div');
-        bump.id = 'menuBump';
-        let point = document.createElement('div');
-        point.id = 'menuPoint';
-        bump.appendChild(point);
-        point.appendChild(menu);
-        this.menu = bump;
-        console.log(menu)
-        console.log(this.menu)
+        let menuIndent = document.createElement('div');
+        menuIndent.id = 'menuBump';
+        menuIndent.appendChild(menu);
+        this.menu = menuIndent;
     }
 
     appendMenu(el) {
         el.appendChild(this.menu);
     }
 
-    toggleMenu() {
-        if (this.menu.style.display != 'unset') {
-            this.menu.style.display = 'unset';
+    toggleMenu(hide = false) {
+        if (!hide) {
+            if (this.menu.style.display != 'unset') {
+                this.menu.style.display = 'unset';
+            } else {
+                this.menu.style.display = 'none';
+            }
         } else {
             this.menu.style.display = 'none';
         }
@@ -75,52 +73,36 @@ class SongMenu {
         var self = this;
         for (var i = 0; i < self.songContainers.length; i++) {
             self.songContainers[i].addEventListener('mouseenter', function (e) {
-                self.showBtn(e);
+                self.appendBtn(e);
             });
             self.songContainers[i].addEventListener('mouseleave', function (e) {
                 self.hideBtn(e);
             });
         }
         this.menuBtn.addEventListener('click', function() {
+            event.stopPropagation();
             self.toggleMenu();
-        })
+        });
+        console.log('menuBtnLitteners')
     }
 
     hideBtn(e) {
-        e.target.zIndex = 1000;
+        this.currentContainer.style.zIndex = 1;
+        this.currentContainer = null;
+        this.toggleMenu(true);
     }
 
-    showBtn(e) {
-        e.target.style.zIndex = 10000;
-        console.log(e.target)
+    appendBtn(e) {
+        for ( let i = 0; i < e.target.childNodes.length; i++ ) {
+            if (e.target.childNodes[i].nodeName == 'DIV' && e.target.childNodes[i].classList.contains("songContainer")) {
+                this.currentContainer = e.target.childNodes[i];
+                break;
+            }
+        }
+        this.currentContainer.style.zIndex = 10000;
         this.menuBtn.style.display = 'unset';
-        e.target.appendChild(this.menuBtn);
+        this.currentContainer.appendChild(this.menuBtn);
         this.appendMenu(e.target);
-        // if(onMouseLeaveTimer){
-        //     tempSongContainer = e;
-        //     return;
-        // }
-        // if (e.target.contains(self.menu)) {
-        //     return;
-        // }
-
-        // else {
-        //     // смотрит если меню видимо - не переносит его на див на который указывает мышь
-        //     var songMenu = document.getElementById('songMenu');
-        //     if (songMenu.style.display == 'unset') {
-        //         return;
-        //     }
-        // }
-
-        // console.log(clone.childNodes)
-
-        // document.getElementById('songMenu').addEventListener('mouseenter', function(){
-        //     onMouseLeaveTimer = false;
-        // });
-        // document.getElementById('songMenu').addEventListener('mouseleave', function(){
-        //     onMouseLeaveMenu(e)
-        // });
-        // addItemClickListeners();
     }
 }
 
