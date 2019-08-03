@@ -4,6 +4,7 @@ class SongMenu {
         this.currentContainer = null;
         this.menuBtn = null;
         this.menu = null;
+        this.settingsItem = null;
         this.createMenu();
         this.createMenuBtn();
         this.appendMenu(this.menuBtn);
@@ -14,10 +15,14 @@ class SongMenu {
      */
     createMenuBtn() {
         var menuBtn = document.createElement('div');
-        menuBtn.id = 'showSongMenuBtn';
+        menuBtn.id = 'songmenu-btn';
         document.body.appendChild(menuBtn);
         this.menuBtn = menuBtn;
         this.appendMenuBtnListeners();
+    }
+
+    getSettingsItem() {
+        return this.settingsItem;
     }
 
     /**
@@ -25,27 +30,58 @@ class SongMenu {
      * Элементы меню получает через JSON запрос.
      */
     createMenu() {
-        //получаем элементы меню
+        //создаем блок меню и добавляем в него пункт настройки песни и пункт с раздвижным подменю по наведению.
         let menu = document.createElement('div');
-        menu.id = 'songMenu';
-        var xhttp = new XMLHttpRequest();
+        menu.id = 'songmenu';
+        this.settingsItem = document.createElement('div');
+        this.settingsItem.id = 'song-settings-item';
+        this.settingsItem.className = 'songmenu-item notextselect';
+        this.settingsItem.innerText = 'Настройки песни';
+        menu.appendChild(this.settingsItem);
+        let submenuContainer = document.createElement('div');
+        submenuContainer.className = 'submenu-container';
+        let mainSubmenuContainer = document.createElement('div');
+        mainSubmenuContainer.id = 'add-to-playlist-expandable';
+        mainSubmenuContainer.className = 'songmenu-item notextselect';
+        mainSubmenuContainer.innerText = 'Добавить в плейлист';
+        submenuContainer.appendChild(mainSubmenuContainer);
+
+        //получаем элементы подменю
+        let xhttp = new XMLHttpRequest();
         xhttp.open("GET", "/songMenu", true);
         xhttp.onload = function() {
-
             let playlists = JSON.parse(this.responseText);
             for (let i = 0; i < playlists.length; i++) {
-                let menuItem = document.createElement('div');
-                menuItem.className = 'songMenu-item';
-                menuItem.setAttribute('data-id', playlists[i].id);
-                menuItem.innerText = playlists[i].name;
-                menu.appendChild(menuItem);
+                let submenuItem = document.createElement('div');
+                submenuItem.className = 'songmenu-item songmenu-submenu-item notextselect';
+                submenuItem.setAttribute('data-id', playlists[i].id);
+                submenuItem.innerText = playlists[i].name;
+                submenuContainer.appendChild(submenuItem);
             }
+            // let submenuItem = document.createElement('div');
+            // submenuItem.id = 'songmenu-another-playlist';
+            // submenuItem.className = 'songmenu-item songmenu-submenu-item notextselect';
+            // submenuItem.innerText = 'Другой плейлист';
+            // submenuContainer.appendChild(submenuItem);
         };
         xhttp.send();
         let menuIndent = document.createElement('div');
-        menuIndent.id = 'menuBump';
+        menuIndent.id = 'songmenu-pointer';
+        menu.appendChild(submenuContainer);
         menuIndent.appendChild(menu);
         this.menu = menuIndent;
+        submenuContainer.addEventListener('mouseenter', function(){
+            let submenuItems = document.getElementsByClassName('songmenu-submenu-item');
+            for (let i = 0; i < submenuItems.length; i++) {
+                submenuItems[i].style.display = 'inherit';
+            }
+        });
+        submenuContainer.addEventListener('mouseleave', function(){
+            let submenuItems = document.getElementsByClassName('songmenu-submenu-item');
+            for (let i = 0; i < submenuItems.length; i++) {
+                submenuItems[i].style.display = 'none';
+            }
+        });
     }
 
     appendMenu(el) {
@@ -94,7 +130,7 @@ class SongMenu {
 
     appendBtn(e) {
         for ( let i = 0; i < e.target.childNodes.length; i++ ) {
-            if (e.target.childNodes[i].nodeName == 'DIV' && e.target.childNodes[i].classList.contains("songContainer")) {
+            if (e.target.childNodes[i].nodeName == 'DIV' && e.target.childNodes[i].classList.contains("song-container")) {
                 this.currentContainer = e.target.childNodes[i];
                 break;
             }
@@ -105,5 +141,3 @@ class SongMenu {
         this.appendMenu(e.target);
     }
 }
-
-var songMenu = new SongMenu();

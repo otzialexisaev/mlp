@@ -4,6 +4,7 @@ class SongMenu {
         this.currentContainer = null;
         this.menuBtn = null;
         this.menu = null;
+        this.settingsItem = null;
         this.createMenu();
         this.createMenuBtn();
         this.appendMenu(this.menuBtn);
@@ -20,6 +21,10 @@ class SongMenu {
         this.appendMenuBtnListeners();
     }
 
+    getSettingsItem() {
+        return this.settingsItem;
+    }
+
     /**
      * Создает меню.
      * Элементы меню получает через JSON запрос.
@@ -28,20 +33,21 @@ class SongMenu {
         //создаем блок меню и добавляем в него пункт настройки песни и пункт с раздвижным подменю по наведению.
         let menu = document.createElement('div');
         menu.id = 'songmenu';
-        let menuSettingsItem = document.createElement('div');
-        menuSettingsItem.id = 'song-settings-item';
-        menuSettingsItem.className = 'songmenu-item notextselect';
-        menuSettingsItem.innerText = 'Настройки песни';
-        menu.appendChild(menuSettingsItem);
+        this.settingsItem = document.createElement('div');
+        this.settingsItem.id = 'song-settings-item';
+        this.settingsItem.className = 'songmenu-item notextselect';
+        this.settingsItem.innerText = 'Настройки песни';
+        menu.appendChild(this.settingsItem);
         let submenuContainer = document.createElement('div');
         submenuContainer.className = 'submenu-container';
         let mainSubmenuContainer = document.createElement('div');
         mainSubmenuContainer.id = 'add-to-playlist-expandable';
         mainSubmenuContainer.className = 'songmenu-item notextselect';
         mainSubmenuContainer.innerText = 'Добавить в плейлист';
+        submenuContainer.appendChild(mainSubmenuContainer);
 
         //получаем элементы подменю
-        var xhttp = new XMLHttpRequest();
+        let xhttp = new XMLHttpRequest();
         xhttp.open("GET", "/songMenu", true);
         xhttp.onload = function() {
             let playlists = JSON.parse(this.responseText);
@@ -52,11 +58,15 @@ class SongMenu {
                 submenuItem.innerText = playlists[i].name;
                 submenuContainer.appendChild(submenuItem);
             }
+            // let submenuItem = document.createElement('div');
+            // submenuItem.id = 'songmenu-another-playlist';
+            // submenuItem.className = 'songmenu-item songmenu-submenu-item notextselect';
+            // submenuItem.innerText = 'Другой плейлист';
+            // submenuContainer.appendChild(submenuItem);
         };
         xhttp.send();
         let menuIndent = document.createElement('div');
         menuIndent.id = 'songmenu-pointer';
-        submenuContainer.appendChild(mainSubmenuContainer);
         menu.appendChild(submenuContainer);
         menuIndent.appendChild(menu);
         this.menu = menuIndent;
@@ -131,5 +141,3 @@ class SongMenu {
         this.appendMenu(e.target);
     }
 }
-
-var songMenu = new SongMenu();

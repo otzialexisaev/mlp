@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{{ asset('css/songsdisplay.css') }}">
     <link rel="stylesheet" href="{{ asset('css/playlists.css') }}">
     <link rel="stylesheet" href="{{ asset('css/songmenu.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/menucore.css') }}">
     {{--<link rel="stylesheet" href="{{ asset('css/test.css') }}">--}}
 </head>
 <body>
@@ -27,6 +28,9 @@
 <script src="/js/bootstrap.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 <script src="/js/player/newautoplay.js"></script>
+<script src="/js/menus/MenuModulCore.js"></script>
 <script src="/js/menus/songMenu.js"></script>
+<script src="/js/menus/SongMenuModul.js"></script>
+<script src="/js/menus/menu.js"></script>
 </body>
 </html>
