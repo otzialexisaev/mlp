@@ -1,5 +1,5 @@
 var songMenu = new SongMenu();
-var asd = new MenuModulCore();
+var asd = new SongMenuModul();
 songMenu.getSettingsItem().addEventListener('click', function(){
     asd.show();
 });

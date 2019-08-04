@@ -1,9 +1,11 @@
 class SongMenuModul extends MenuModulCore {
+    static rpcfolder = 'songmenumodul';
     constructor() {
         super();
     }
-    check() {
-        console.log(this.background)
+    getRpcFolder() {
+        return 'songmenumodul';
     }
 
+    //todo видимо этот класс нужен только для хранения пути для rpc запроса
 }

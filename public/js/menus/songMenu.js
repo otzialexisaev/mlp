@@ -70,6 +70,7 @@ class SongMenu {
         menu.appendChild(submenuContainer);
         menuIndent.appendChild(menu);
         this.menu = menuIndent;
+        console.log(this.menu)
         submenuContainer.addEventListener('mouseenter', function(){
             let submenuItems = document.getElementsByClassName('songmenu-submenu-item');
             for (let i = 0; i < submenuItems.length; i++) {
@@ -139,5 +140,14 @@ class SongMenu {
         this.menuBtn.style.display = 'unset';
         this.currentContainer.appendChild(this.menuBtn);
         this.appendMenu(e.target);
+        this.setMenuSongId(this.currentContainer.dataset.songid);
+    }
+
+    setMenuSongId(songid) {
+        this.menu.dataset.songid = songid;
+    }
+
+    getMenuSongId() {
+        this.menu.dataset.songid;
     }
 }
