@@ -52,6 +52,7 @@
     transition-duration: 0.3s;
     border: 3px solid #7FDBFF;
     border-radius: 4px;
+    cursor: pointer;
 }
 
 .btnHighlight {

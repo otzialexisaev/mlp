@@ -1,6 +1,5 @@
-class Textfield {
-    constructor() {
-        this.count = 0;
+class Textfield extends InputsCore {
+    constructor(name, options) {
+        super('textfield', name, options);
     }
-    static fieldname = 'textarea';
 }

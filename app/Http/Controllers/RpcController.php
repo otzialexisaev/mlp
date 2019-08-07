@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class RpcController extends Controller
 {
-    public function form($folder) {
-        var_dump($folder);
+    public function inputs($formtype) {
+        include app_path("/_rpc/inputs/{$formtype}");
     }
 }

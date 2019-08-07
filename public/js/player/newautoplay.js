@@ -262,6 +262,13 @@ class PlayerInstance {
             self.controls.highlightRepeatAll(self.switches.bRepeatAll);
         });
 
+        this.controls.play.addEventListener('dragstart', function (e) {e.preventDefault();});
+        this.controls.next.addEventListener('dragstart', function (e) {e.preventDefault();});
+        this.controls.prev.addEventListener('dragstart', function (e) {e.preventDefault();});
+        this.controls.random.addEventListener('dragstart', function (e) {e.preventDefault();});
+        this.controls.repeatOne.addEventListener('dragstart', function (e) {e.preventDefault();});
+        this.controls.repeatAll.addEventListener('dragstart', function (e) {e.preventDefault();});
+
         this.audio.instance.addEventListener('timeupdate', function () {
             self.scrubber.update(self.audio.instance.duration, self.audio.instance.currentTime);
             self.songTime.update(self.audio.instance.duration, self.audio.instance.currentTime);

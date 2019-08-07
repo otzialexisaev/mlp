@@ -1,0 +1,11 @@
+<?php
+$name = $_REQUEST['name'];
+$options = json_decode($_REQUEST['options']);
+//$options = $_REQUEST['options'];
+//echo "{$name}";
+$form = '';
+if (isset($options->label)) {
+    $form .= "<label for='{$name}'>" . $options->label . "</label>";
+}
+$form .= "<input type='textfield' name='{$name}'/>";
+echo $form;

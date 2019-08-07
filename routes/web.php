@@ -21,4 +21,5 @@ Route::get('/songs', 'SongsController@index');
 Route::get('/playlists', 'PlaylistsController@index');
 Route::get('/playlists/{id}', 'PlaylistsController@show');
 Route::get('songMenu', 'MenusController@getSongMenu');
-Route::get('/rpc/{folder}/form.php', 'RpcController@form');
+Route::get('/_rpc/inputs/{formtype}', 'RpcController@inputs');
+Route::get('/_rpc/forms/{form}', 'FormController@formSubmit');
