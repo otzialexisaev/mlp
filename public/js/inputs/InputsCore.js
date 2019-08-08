@@ -1,5 +1,5 @@
 class InputsCore {
-    constructor(formtype, name, options = []) {
+    constructor(formtype, name, options = {}) {
         this.formtype = formtype;
         this.name = name;
         this.options = JSON.stringify(options);

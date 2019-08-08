@@ -13,12 +13,18 @@
     width: 70%;
     padding: 40px;
     /* height: 70%; */
-    background: blue;
+    background: #5d7ada;
     top: 15%;
     z-index: 100001;
+    border-radius: 10px;
     left: 15%;
 }
 
 #menucore-content-bottom {
     padding-top: 40px;
+}
+
+.menucore-label {
+    margin-right: 25px;
+    color: white;
 }

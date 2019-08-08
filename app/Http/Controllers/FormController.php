@@ -8,6 +8,6 @@ class FormController extends Controller
 {
     public function formSubmit($form)
     {
-        var_dump($form);
+        include app_path("_rpc/forms/{$form}.php");
     }
 }

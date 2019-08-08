@@ -17,7 +17,7 @@
     {{--<link rel="stylesheet" href="{{ asset('css/test.css') }}">--}}
 </head>
 <body>
-<div class="container">
+<div class="container" style="min-width: 960px">
     @include('inc.navbar')
     @yield('content')
 </div>
