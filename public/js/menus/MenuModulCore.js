@@ -1,6 +1,7 @@
 class MenuModulCore {
 
-    constructor() {
+    constructor(id = null) {
+        this.id = id;
         this.modul = document.createElement('div');
         this.background = document.createElement('div');
         this.menuContainer = document.createElement('div');
@@ -8,6 +9,7 @@ class MenuModulCore {
         this.content = [];
         this.bottom = document.createElement('div');
         this.submitBtn = document.createElement('button');
+        this.request = "_rpc/forms/" + this.getRpcFolder();
         this.init();
     }
 
@@ -23,10 +25,13 @@ class MenuModulCore {
         this.submitBtn.type = 'submit';
         this.submitBtn.classList.add('btn', 'btn-success');
         this.submitBtn.innerText = 'Применить';
+        this.submitBtn.onclick = () => {
+            this.sendForm();
+        };
         // this.form
     }
 
-    getFormName() {
+    getRpcFolder() {
         return 'menumodulcore';
     }
 
@@ -43,9 +48,6 @@ class MenuModulCore {
             // this.form.appendChild(this.content[i].getCompiled())
             this.menuContainer.appendChild(this.content[i].getCompiled())
         }
-        this.submitBtn.onclick = () => {
-            this.sendForm();
-        };
         this.bottom.appendChild(this.submitBtn);
         // this.form.appendChild(this.bottom);
         this.menuContainer.appendChild(this.bottom);
@@ -54,6 +56,26 @@ class MenuModulCore {
     show() {
         document.body.appendChild(this.modul);
     }
+
+    //todo запрос полей в пыхе через запрос по типу
+
+    // <? php
+    //     function test($data){
+    //         return $data+1;
+    //     }
+    //
+    //     if (isset($_POST['callFunc1'])) {
+    //     echo test($_POST['callFunc1']);
+    // }
+    //     ?>
+    // <script>
+    // $.ajax({
+    //     url: 'myFunctions.php',
+    //     type: 'post',
+    //     data: { "callFunc1": "1"},
+    //     success: function(response) { console.log(response); }
+    // });
+    // </script>
 
     /**
      * Получает уже скомпиленный элемент, готовый для отображения

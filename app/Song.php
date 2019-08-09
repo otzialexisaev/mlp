@@ -8,4 +8,5 @@ class Song extends Model
 {
   protected $fillable = ['name', 'path'];
   protected $table = 'song';
+  public $timestamps = false;
 }

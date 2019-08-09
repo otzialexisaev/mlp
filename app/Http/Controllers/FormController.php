@@ -8,6 +8,8 @@ class FormController extends Controller
 {
     public function formSubmit($form)
     {
-        include app_path("_rpc/forms/{$form}.php");
+        if (file_exists(app_path("_rpc/forms/{$form}.php"))) {
+            include app_path("_rpc/forms/{$form}.php");
+        }
     }
 }

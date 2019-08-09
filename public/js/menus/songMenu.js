@@ -34,7 +34,7 @@ class SongMenu {
         let menu = document.createElement('div');
         menu.id = 'songmenu';
         this.settingsItem = document.createElement('div');
-        this.settingsItem.id = 'song-settings-item';
+        this.settingsItem.id = 'songmenu-settings-item';
         this.settingsItem.className = 'songmenu-item notextselect';
         this.settingsItem.innerText = 'Настройки песни';
         menu.appendChild(this.settingsItem);
@@ -66,7 +66,7 @@ class SongMenu {
         };
         xhttp.send();
         let menuIndent = document.createElement('div');
-        menuIndent.id = 'songmenu-pointer';
+        menuIndent.id = 'songmenu-container';
         menu.appendChild(submenuContainer);
         menuIndent.appendChild(menu);
         this.menu = menuIndent;
@@ -120,7 +120,6 @@ class SongMenu {
             event.stopPropagation();
             self.toggleMenu();
         });
-        console.log('menuBtnLitteners')
     }
 
     hideBtn(e) {
@@ -148,6 +147,6 @@ class SongMenu {
     }
 
     getMenuSongId() {
-        this.menu.dataset.songid;
+        return this.menu.dataset.songid;
     }
 }

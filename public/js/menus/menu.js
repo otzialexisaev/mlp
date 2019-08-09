@@ -1,10 +1,11 @@
 let songMenuDropDown = new SongMenu();
-let songMenuModul = new SongMenuModul();
-//todo сделать класс с опциями
-let songNameField = new Textfield('songsName', {'label' : 'Название'});
-songMenuModul.addContent(songNameField);
-songMenuModul.compile();
-songMenuDropDown.getSettingsItem().addEventListener('click', function(){
+songMenuDropDown.getSettingsItem().addEventListener('click', function () {
+    let songMenuModul = new SongMenuModul(songMenuDropDown.getMenuSongId());
+    console.log(songMenuModul.id)
+    //todo сделать класс с опциями
+    let songNameField = new Textfield('songsName', {'label': 'Название'});
+    songMenuModul.addContent(songNameField);
+    songMenuModul.compile();
     songMenuModul.show();
 });
 // var dsa = new SongMenuModul();

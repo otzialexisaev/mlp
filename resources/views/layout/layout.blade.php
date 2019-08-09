@@ -33,6 +33,7 @@
 <script src="/js/menus/SongMenuModul.js"></script>
 <script src="/js/inputs/InputsCore.js"></script>
 <script src="/js/inputs/Textfield.js"></script>
+<script src="/js/utils/Xhr.js"></script>
 <script src="/js/menus/menu.js"></script>
 </body>
 </html>
