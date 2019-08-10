@@ -5,16 +5,16 @@ class SongMenuModul extends MenuModulCore {
     }
 
     getRpcFolder() {
-        return 'songmenumodul';
+        return 'songMenuModul';
     }
 
     sendForm() {
         let self = this;
         if (this.id != null) {
-            this.request += '?id=' + this.id;
+            this.submitRequest += '?id=' + this.id;
         }
-        this.request += '&name=' + document.getElementById('name').value;
-        let response = new Xhr('GET', this.request);
+        this.submitRequest += '&name=' + document.getElementById('name').value;
+        let response = new Xhr('GET', this.submitRequest);
         // let xhr = new XMLHttpRequest();
         // xhr.open('GET', this.request + "&name="+name);
         // xhr.onload = function() {

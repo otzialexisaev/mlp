@@ -9,8 +9,10 @@ class MenuModulCore {
         this.content = [];
         this.bottom = document.createElement('div');
         this.submitBtn = document.createElement('button');
-        this.request = "_rpc/forms/" + this.getRpcFolder();
+        this.submitRequest = "_rpc/forms/" + this.getRpcFolder() + '/submit';
+        this.fieldsRequest = "_rpc/forms/" + this.getRpcFolder() + '/getfields';
         this.init();
+        this.getFields();
     }
 
     init() {
@@ -21,7 +23,7 @@ class MenuModulCore {
         this.background.onclick = () => {
             this.close();
         };
-        // this.form.action = '/_rpc/forms/' + this.getFormName();
+        // this.form.action = '/rpc/forms/' + this.getFormName();
         this.submitBtn.type = 'submit';
         this.submitBtn.classList.add('btn', 'btn-success');
         this.submitBtn.innerText = 'Применить';
@@ -29,6 +31,11 @@ class MenuModulCore {
             this.sendForm();
         };
         // this.form
+    }
+
+    getFields() {
+        let fields = new Xhr('GET', this.fieldsRequest);
+        console.log(fields)
     }
 
     getRpcFolder() {

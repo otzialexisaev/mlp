@@ -10,6 +10,7 @@ class Xhr {
         let xhr = new XMLHttpRequest();
         xhr.open(this.method, this.request, this.async);
         xhr.onload = function() {
+            console.log(this.response)
             return this.response;
         };
         xhr.send();
