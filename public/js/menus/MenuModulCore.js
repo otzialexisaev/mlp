@@ -2,17 +2,17 @@ class MenuModulCore {
 
     constructor(id = null) {
         this.id = id;
+        this.rpcFolder = 'menumodulcore';
         this.modul = document.createElement('div');
         this.background = document.createElement('div');
         this.menuContainer = document.createElement('div');
-        // this.form = document.createElement('form');
         this.content = [];
         this.bottom = document.createElement('div');
         this.submitBtn = document.createElement('button');
-        this.submitRequest = "_rpc/forms/" + this.getRpcFolder() + '/submit';
-        this.fieldsRequest = "_rpc/forms/" + this.getRpcFolder() + '/getfields';
+        this.submitRequest = "_rpc/forms/" + this.rpcFolder + '/submit';
+        this.fieldsRequest = "_rpc/forms/" + this.rpcFolder + '/getfields';
+        this.fields = null;
         this.init();
-        this.getFields();
     }
 
     init() {
@@ -23,45 +23,68 @@ class MenuModulCore {
         this.background.onclick = () => {
             this.close();
         };
-        // this.form.action = '/rpc/forms/' + this.getFormName();
         this.submitBtn.type = 'submit';
         this.submitBtn.classList.add('btn', 'btn-success');
         this.submitBtn.innerText = 'Применить';
         this.submitBtn.onclick = () => {
             this.sendForm();
         };
-        // this.form
-    }
-
-    getFields() {
-        let fields = new Xhr('GET', this.fieldsRequest);
-        console.log(fields)
-    }
-
-    getRpcFolder() {
-        return 'menumodulcore';
     }
 
     close() {
         document.body.removeChild(this.modul);
     }
 
-    compile() {
-        // console.log(this.container)
-        this.modul.appendChild(this.background);
-        this.modul.appendChild(this.menuContainer);
-        // this.menuContainer.appendChild(this.form);
-        for (let i = 0; i < this.content.length; i++) {
-            // this.form.appendChild(this.content[i].getCompiled())
-            this.menuContainer.appendChild(this.content[i].getCompiled())
+    compile(self = this) {
+        // console.log(self.fields)
+        self.modul.appendChild(self.background);
+        self.modul.appendChild(self.menuContainer);
+        for (let i = 0; i < self.content.length; i++) {
+            self.menuContainer.appendChild(self.content[i].getCompiled())
         }
-        this.bottom.appendChild(this.submitBtn);
-        // this.form.appendChild(this.bottom);
-        this.menuContainer.appendChild(this.bottom);
+        self.bottom.appendChild(self.submitBtn);
+        self.menuContainer.appendChild(self.bottom);
+    }
+
+    // получает поля из запроса полей
+    getFields(callback) {
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', this.fieldsRequest, true);
+        console.log(this.fieldsRequest)
+        xhr.onload = () => {
+            console.log(xhr.responseText)
+            this.fields = JSON.parse(xhr.response);
+            callback(this);
+            this._show();
+        };
+        xhr.send();
     }
 
     show() {
+        this.getFields(this.compile);
+    }
+
+    _show() {
         document.body.appendChild(this.modul);
+    }
+
+    sendForm() {
+        console.log('sendfs ofrm')
+        let self = this;
+        if (this.id != null) {
+            this.submitRequest += '?id=' + this.id;
+        }
+        console.log(this.fields.name.value);
+        this.submitRequest += '&name=' + document.getElementById(this.fields.name).value;
+        let response = new Xhr('GET', this.submitRequest);
+        // let xhr = new XMLHttpRequest();
+        // xhr.open('GET', this.request + "&name="+name);
+        // xhr.onload = function() {
+        //     console.log(this.response)
+        // };
+        // xhr.send();
+        //todo xhr class
+        //todo update songname on page after submit
     }
 
     //todo запрос полей в пыхе через запрос по типу
@@ -98,6 +121,4 @@ class MenuModulCore {
         // Change this to div.childNodes to support multiple top-level nodes
         return div.firstChild;
     }
-
-    sendForm(){};
 }

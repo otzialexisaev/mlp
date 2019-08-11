@@ -14,7 +14,7 @@ class InputsCore {
         //todo async false is deprecated
         xhr.onload = function(){
             _self.compiled.insertAdjacentHTML('beforeend', this.response);
-            console.log(_self.compiled)
+            // console.log(_self.compiled)
         };
         xhr.send();
     }

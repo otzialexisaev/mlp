@@ -10,12 +10,10 @@ namespace App\Core\Forms;
 
 class Core
 {
-    public $fields = ['id'];
+    public $fields = ['id' => 'nonrequried'];
 
     public function getFields()
     {
-        var_dump($this->fields);
-        var_dump('asd');
         return $this->fields;
     }
 }
