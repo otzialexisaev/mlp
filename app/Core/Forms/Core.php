@@ -10,10 +10,15 @@ namespace App\Core\Forms;
 
 class Core
 {
-    public $fields = ['id' => 'nonrequried'];
+    static public $fields = ['id' => 'nonrequried'];
 
-    public function getFields()
+    static public function getFields()
     {
-        return $this->fields;
+        return static::$fields;
+    }
+
+    static public function submit() {
+//        echo $_REQUEST['']
+        var_dump($_REQUEST);
     }
 }

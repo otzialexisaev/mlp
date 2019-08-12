@@ -9,7 +9,11 @@ class RpcController extends Controller
     public function formSubmit($form)
     {
         if (file_exists(app_path("_rpc/forms/{$form}.php"))) {
-            include app_path("_rpc/forms/{$form}.php");
+            $classname = '\\App\\_rpc\\forms\\'.$form;
+            $form = new $classname();
+            $fields = $form::submit();
+            //todo response
+            echo json_encode($fields);
         }
     }
 
@@ -22,10 +26,10 @@ class RpcController extends Controller
 //            var_dump($check);
 //            die();
 
-            $form = 'songmenumodul';
+//            $form = 'songmenumodul';
             $classname = '\\App\\_rpc\\forms\\'.$form;
             $form = new $classname();
-            $fields = $form->getFields();
+            $fields = $form::getFields();
             //todo response
             echo json_encode($fields);
         }
