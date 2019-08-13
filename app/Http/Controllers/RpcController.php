@@ -10,8 +10,10 @@ class RpcController extends Controller
     {
         if (file_exists(app_path("_rpc/forms/{$form}.php"))) {
             $classname = '\\App\\_rpc\\forms\\'.$form;
-            $form = new $classname();
-            $fields = $form::submit();
+            isset($_REQUEST['id'])
+                ? $form = new $classname($_REQUEST['id'])
+                : $form = new $classname();
+            $fields = $form->submit();
             //todo response
             echo json_encode($fields);
         }
@@ -28,8 +30,8 @@ class RpcController extends Controller
 
 //            $form = 'songmenumodul';
             $classname = '\\App\\_rpc\\forms\\'.$form;
-            $form = new $classname();
-            $fields = $form::getFields();
+//            $form = new $classname();
+            $fields = $classname::getFields();
             //todo response
             echo json_encode($fields);
         }

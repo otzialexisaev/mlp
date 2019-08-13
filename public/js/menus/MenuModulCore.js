@@ -72,19 +72,15 @@ class MenuModulCore {
     sendForm() {
         let token = document.head.querySelector("meta[name=csrf-token]").content;
 
-        // console.log('sendfs ofrm')
-        let self = this;
-        // if (this.id != null) {
-        //     this.submitRequest += '?id=' + this.id;
-        // }
-        // console.log(this.fields);
-
         let sendValues = {};
 
         for (const key of Object.keys(this.fields)) {
             if (this.fields[key] == 'selfcontained' && this[key]) {
-                // console.log(this.fields[key] + "from menu");
-                sendValues[key] = this[key];
+                if (key == 'id') {
+                    this.submitRequest += '?id=' + this[key];
+                } else {
+                    sendValues[key] = this[key];
+                }
                 continue;
             }
             if (document.getElementById(key)) {
@@ -94,17 +90,17 @@ class MenuModulCore {
 
         if (Object.keys(sendValues).length === 0) {
             //todo вывод ошибки ну и проверку опять же на незаполненные поля
-            console.log("пустой объект с посылаемыми данными")
+            console.log("пустой объект с посылаемыми данными");
             return false;
         }
         let xhr = new XMLHttpRequest();
         xhr.open('POST', this.submitRequest);
         xhr.setRequestHeader('Content-Type', 'application/json');
+        // xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
         // todo вбросить токен (DONE)
         xhr.setRequestHeader("X-CSRF-TOKEN", token);
         xhr.onload = () => {
-            this.checkSendRequest(xhr.response)
-            //todo разобраться с page expired
+            MenuModulCore.checkSendRequest(xhr.response);
         };
         xhr.send(JSON.stringify(sendValues));
 
@@ -112,22 +108,12 @@ class MenuModulCore {
         
         //todo проверку обязательных полей
 
-        // console.log(sendValues);
-
-        // this.submitRequest += '&name=' + document.getElementById(this.fields.name).value;
-        // let response = new Xhr('GET', this.submitRequest);
-
-        // let xhr = new XMLHttpRequest();
-        // xhr.open('GET', this.request + "&name="+name);
-        // xhr.onload = function() {
-        //     console.log(this.response)
-        // };
-        // xhr.send();
         //todo xhr class
+
         //todo update songname on page after submit
     }
 
-    checkSendRequest(response) {
+    static checkSendRequest(response) {
         console.log(response)
     }
 
@@ -159,7 +145,7 @@ class MenuModulCore {
     }
 
     createElementFromHTML(htmlString) {
-        var div = document.createElement('div');
+        let div = document.createElement('div');
         div.innerHTML = htmlString.trim();
 
         // Change this to div.childNodes to support multiple top-level nodes
