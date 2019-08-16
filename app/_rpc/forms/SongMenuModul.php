@@ -7,6 +7,8 @@ use App;
 
 class SongMenuModul extends Forms\Core
 {
+    //todo смена имени песни ломает все потому что путь к ней прописан не полный, а только до папки так что песню
+    //по имени больше не находит
     static public $fields = ['id' => 'selfcontained', 'name'=>'required'];
     static public $model = 'Song';
 

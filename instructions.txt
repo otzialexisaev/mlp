@@ -1,0 +1,11 @@
+Добавить новое меню:
+1) Добавить ls класс наследующий MenuModulCore и подставить ему переменные:
+        this.rpcFolder = 'addtoplaylistmenumodul';
+        this.submitRequest = "_rpc/forms/" + this.rpcFolder + '/submit';
+        this.fieldsRequest = "_rpc/forms/" + this.rpcFolder + '/getfields';
+
+2) Добавить в rpc папку пхп файл с таким же названием который extends Forms\Core и задать поля:
+    static public $fields = ['id' => 'selfcontained', 'name'=>'required'];
+    static public $model = 'Song';
+
+    Если нужно две модели то переопределить setSaveValues();

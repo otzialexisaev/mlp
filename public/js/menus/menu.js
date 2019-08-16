@@ -8,6 +8,12 @@ songMenuDropDown.getSettingsItem().addEventListener('click', function () {
     // songMenuModul.compile();
     songMenuModul.show();
 });
+songMenuDropDown.getAnotherPlaylistItem().addEventListener('click', function () {
+    let addToPlaylistMenu = new AddToPlaylistMenuModul();
+    let playlistSelect = new PlaylistMultipleSelect();
+    addToPlaylistMenu.addContent(playlistSelect);
+    addToPlaylistMenu.show();
+});
 // var dsa = new SongMenuModul();
 // dsa.check();
 // asd.show()

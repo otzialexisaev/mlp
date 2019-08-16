@@ -12,7 +12,10 @@
     position: fixed;
     width: 70%;
     padding: 40px;
-    /* height: 70%; */
+    /*test*/
+     height: 70%;
+    overflow-y: auto;
+    /*test*/
     background: #5d7ada;
     top: 15%;
     z-index: 100001;
@@ -27,4 +30,17 @@
 .menucore-label {
     margin-right: 25px;
     color: white;
+}
+
+.menucore-select-singletable {
+    display: table;
+    height: 60px;
+    width: 100%;
+    background-color: rgb(223, 228, 248);
+    border: 1px solid black;
+}
+
+.menucore-select-singletablecell {
+    display: table-cell;
+    vertical-align: middle;
 }

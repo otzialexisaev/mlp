@@ -25,6 +25,4 @@ class SongMenuModul extends MenuModulCore {
     //     //todo xhr class
     //     //todo update songname on page after submit
     // }
-
-    //todo видимо этот класс нужен только для хранения пути для rpc запроса
 }

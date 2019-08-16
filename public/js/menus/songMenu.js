@@ -5,6 +5,7 @@ class SongMenu {
         this.menuBtn = null;
         this.menu = null;
         this.settingsItem = null;
+        this.anotherPlaylistItem = null;
         this.createMenu();
         this.createMenuBtn();
         this.appendMenu(this.menuBtn);
@@ -23,6 +24,10 @@ class SongMenu {
 
     getSettingsItem() {
         return this.settingsItem;
+    }
+
+    getAnotherPlaylistItem() {
+        return this.anotherPlaylistItem;
     }
 
     /**
@@ -49,8 +54,8 @@ class SongMenu {
         //получаем элементы подменю
         let xhttp = new XMLHttpRequest();
         xhttp.open("GET", "/songMenu", true);
-        xhttp.onload = function() {
-            let playlists = JSON.parse(this.responseText);
+        xhttp.onload = () => {
+            let playlists = JSON.parse(xhttp.responseText);
             for (let i = 0; i < playlists.length; i++) {
                 let submenuItem = document.createElement('div');
                 submenuItem.className = 'songmenu-item songmenu-submenu-item notextselect';
@@ -58,13 +63,14 @@ class SongMenu {
                 submenuItem.innerText = playlists[i].name;
                 submenuContainer.appendChild(submenuItem);
             }
-            // let submenuItem = document.createElement('div');
-            // submenuItem.id = 'songmenu-another-playlist';
-            // submenuItem.className = 'songmenu-item songmenu-submenu-item notextselect';
-            // submenuItem.innerText = 'Другой плейлист';
-            // submenuContainer.appendChild(submenuItem);
         };
         xhttp.send();
+        //todo видимо коллбэком надо добавить поля чтобы этот пункт отображался внизу
+        this.anotherPlaylistItem = document.createElement('div');
+        this.anotherPlaylistItem.id = 'songmenu-another-playlist';
+        this.anotherPlaylistItem.className = 'songmenu-item songmenu-submenu-item notextselect';
+        this.anotherPlaylistItem.innerText = 'Другой плейлист';
+        submenuContainer.appendChild(this.anotherPlaylistItem);
         let menuIndent = document.createElement('div');
         menuIndent.id = 'songmenu-container';
         menu.appendChild(submenuContainer);

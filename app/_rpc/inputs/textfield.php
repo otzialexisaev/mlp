@@ -7,5 +7,6 @@ $form = '';
 if (isset($options->label)) {
     $form .= "<label class='menucore-label' for='{$name}'>{$options->label}</label>";
 }
+//todo почему статичный айди???
 $form .= "<input type='textfield' name='{$name}' id='name'/>";
 echo $form;
