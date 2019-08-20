@@ -80,8 +80,8 @@ class MenuModulCore {
         let sendValues = {};
 
         for (const key of Object.keys(this.fields)) {
-            if (this.fields[key] == 'selfcontained' && this[key]) {
-                if (key == 'id') {
+            if (this.fields[key] === 'selfcontained' && this[key]) {
+                if (key === 'id') {
                     this.submitRequest += '?id=' + this[key];
                 } else {
                     sendValues[key] = this[key];
