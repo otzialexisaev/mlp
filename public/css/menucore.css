@@ -14,7 +14,6 @@
     padding: 40px;
     /*test*/
      height: 70%;
-    overflow-y: auto;
     /*test*/
     background: #5d7ada;
     top: 15%;
@@ -33,14 +32,31 @@
 }
 
 .menucore-select-singletable {
-    display: table;
+    display: flex;
     height: 60px;
     width: 100%;
+    padding-left: 15px;
     background-color: rgb(223, 228, 248);
     border: 1px solid black;
 }
 
 .menucore-select-singletablecell {
-    display: table-cell;
-    vertical-align: middle;
+    align-self: center;
 }
+
+#playlist-multiple-select-container {
+    overflow-y: auto;
+    width: 100%;
+}
+
+#menucore-content {
+    height: 80%;
+    display: flex;
+}
+
+#menucore-content-insides {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+

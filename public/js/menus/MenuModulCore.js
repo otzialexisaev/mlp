@@ -6,6 +6,7 @@ class MenuModulCore {
         this.modul = document.createElement('div');
         this.background = document.createElement('div');
         this.menuContainer = document.createElement('div');
+        this.contentArea = document.createElement('div');
         this.content = [];
         this.bottom = document.createElement('div');
         this.submitBtn = document.createElement('button');
@@ -20,6 +21,7 @@ class MenuModulCore {
         this.background.id = 'menucore-darkbg';
         this.menuContainer.id = 'menucore-content-container';
         this.bottom.id = 'menucore-content-bottom';
+        this.contentArea.id = 'menucore-content-insides';
         this.background.onclick = () => {
             this.close();
         };
@@ -39,11 +41,13 @@ class MenuModulCore {
         // console.log(self.fields)
         self.modul.appendChild(self.background);
         self.modul.appendChild(self.menuContainer);
+        self.menuContainer.appendChild(self.contentArea);
         for (let i = 0; i < self.content.length; i++) {
-            self.menuContainer.appendChild(self.content[i].getCompiled())
+            // self.menuContainer.appendChild(self.content[i].getCompiled())
+            self.contentArea.insertAdjacentHTML('beforeend', self.content[i].compiled)
         }
         self.bottom.appendChild(self.submitBtn);
-        self.menuContainer.appendChild(self.bottom);
+        self.contentArea.appendChild(self.bottom);
     }
 
     // получает поля из запроса полей
@@ -61,6 +65,7 @@ class MenuModulCore {
     }
 
     show() {
+        //todo нормальный порядок, почему из получения полей сразу show
         this.getFields(this.compile);
     }
 

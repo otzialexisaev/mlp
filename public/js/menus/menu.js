@@ -5,6 +5,9 @@ songMenuDropDown.getSettingsItem().addEventListener('click', function () {
     //todo сделать класс с опциями
     let songNameField = new Textfield('songsName', {'label': 'Название'});
     songMenuModul.addContent(songNameField);
+    let songNameField2 = new Textfield('songsName', {'label': 'Название'});
+    songMenuModul.addContent(songNameField);
+    songMenuModul.addContent(songNameField2);
     // songMenuModul.compile();
     songMenuModul.show();
 });
