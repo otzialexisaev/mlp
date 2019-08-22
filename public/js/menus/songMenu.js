@@ -76,7 +76,6 @@ class SongMenu {
         menu.appendChild(submenuContainer);
         menuIndent.appendChild(menu);
         this.menu = menuIndent;
-        console.log(this.menu)
         submenuContainer.addEventListener('mouseenter', function(){
             let submenuItems = document.getElementsByClassName('songmenu-submenu-item');
             for (let i = 0; i < submenuItems.length; i++) {

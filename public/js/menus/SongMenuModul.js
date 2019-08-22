@@ -1,10 +1,10 @@
 class SongMenuModul extends MenuModulCore {
 
     constructor(id = null) {
-        super(id);
-        this.rpcFolder = 'songmenumodul';
-        this.submitRequest = "_rpc/forms/" + this.rpcFolder + '/submit';
-        this.fieldsRequest = "_rpc/forms/" + this.rpcFolder + '/getfields';
+        super('songmenumodul');
+        // this.rpcFolder = 'songmenumodul';
+        // this.submitRequest = "_rpc/forms/" + this.rpcFolder + '/submit';
+        // this.fieldsRequest = "_rpc/forms/" + this.rpcFolder + '/getfields';
     }
 
     // sendForm() {
