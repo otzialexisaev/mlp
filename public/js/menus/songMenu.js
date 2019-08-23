@@ -135,9 +135,10 @@ class SongMenu {
 
     appendBtn(e) {
         for ( let i = 0; i < e.target.childNodes.length; i++ ) {
+            //todo есть класс song-menu-container & songmenu-container исправить
             if (e.target.childNodes[i].nodeName == 'DIV' && e.target.childNodes[i].classList.contains("song-container")) {
                 this.currentContainer = e.target.childNodes[i];
-                break;
+                break; //break из for а не из функции ну хорош забывать уже
             }
         }
         this.currentContainer.style.zIndex = 10000;

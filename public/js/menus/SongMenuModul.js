@@ -1,6 +1,6 @@
 class SongMenuModul extends MenuModulCore {
 
-    constructor(id = null) {
+    constructor() {
         super('songmenumodul');
         // this.rpcFolder = 'songmenumodul';
         // this.submitRequest = "_rpc/forms/" + this.rpcFolder + '/submit';

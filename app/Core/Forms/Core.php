@@ -61,14 +61,14 @@ class Core
     public function dataToSaveValues()
     {
         foreach (static::$fields as $field => $param) {
-            if ($param == 'selfcontained') {
-                if (isset($this->$field)) {
-                    $this->saveValues[] = ['key' => $field, 'value' => $this->$field];
-                } else {
-                    //todo throw error
-                }
-                continue;
-            }
+//            if ($param == 'selfcontained') {
+//                if (isset($this->$field)) {
+//                    $this->saveValues[] = ['key' => $field, 'value' => $this->$field];
+//                } else {
+//                    todo throw error
+//                }
+//                continue;
+//            }
 //            print_r($this->data->$field);
             if (isset($this->data->$field)) { //todo проверку на обязательные поля
                 $this->saveValues[] = ['key' => $field, 'value' => $this->data->$field];
@@ -78,9 +78,11 @@ class Core
 
     public function saveModelObjectFromSaveValues()
     {
+        //todo поля пришедшие и поля в модели отличаются
         $objname = 'App\\' . static::$model;
         //todo update модель а не insert или проерку на $this->id
         $obj = $objname::find($this->id);
+        var_dump($this->saveValues);
         foreach ($this->saveValues as $values) {
             $key = $values['key'];
             $obj->$key = $values['value'] . '.mp3';

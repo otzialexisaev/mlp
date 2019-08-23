@@ -1,7 +1,8 @@
 class InputsCore {
-    constructor(id, options = {}) {
-        this.id = id;
+    constructor(name, options = {}) {
+        this.name = name;
         this.options = options;
+        this.values = {};
         //todo задать класс контейнеру
 
         // this.compiled = document.createElement('div');
@@ -27,6 +28,10 @@ class InputsCore {
 
     getCompiled() {
         return this.compiled;
+    }
+
+    collectInputs() {
+
     }
 
     createElementFromHTML(htmlString) {
