@@ -36,19 +36,28 @@ class MenuModulCore {
         this.init();
     }
 
+    /**
+     * Добавляет дополнительные данные к сохраняемым данным если их нельзя получить от пользователя.
+     *
+     * @param field
+     * @param value
+     */
     addValue(field, value) {
         this.sendValues[field] = value;
     }
 
     init() {
         this.initBackground();
-        this.initMenu();
         this.initBtn();
         this.menu.init();
         this.menu.addSuccessBtn(this.submitBtn);
         this.getFields();
     }
 
+    /**
+     * Запрашивает поля у пхп класса с таким же именем поля, которые дожны содержаться в форме.
+     * //todo проверка на эти поля
+     */
     getFields() {
         let xhr = new XMLHttpRequest();
         xhr.open('GET', this.fieldsRequest, true);
@@ -70,9 +79,6 @@ class MenuModulCore {
         };
     }
 
-    initMenu() {
-    }
-
     initBtn() {
         this.submitBtn = document.createElement('button');
         this.submitBtn.classList.add('btn', 'btn-success');
@@ -82,7 +88,6 @@ class MenuModulCore {
         };
     }
 
-    //todo сконнектить инпут с их id чтобы посылать в php
     sendForm() {
         let token = document.head.querySelector("meta[name=csrf-token]").content;
 
@@ -116,13 +121,9 @@ class MenuModulCore {
         xhr.open('POST', this.submitRequest);
         xhr.setRequestHeader('Content-Type', 'application/json');
         // xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-        // todo вбросить токен (DONE)
         xhr.setRequestHeader("X-CSRF-TOKEN", token);
-        console.log(this.sendValues)
-        // xhr.send(this.sendValues);
+        // console.log(this.sendValues)
         xhr.send(JSON.stringify(this.sendValues));
-
-        //todo сделать чтобы значения в запрос передавались не добавлением к submitRequest
 
         //todo проверку обязательных полей
 
@@ -131,13 +132,21 @@ class MenuModulCore {
         //todo update songname on page after submit
     }
 
+    /**
+     * Добавляет элемент в массив content. Элемент дожлен быть класса InputCore.
+     * @param el InputsCore
+     */
     addContent(el) {
         this.content.push(el);
     }
 
+    /**
+     * Добавляет в меню все каждый аттрибут compiled элементов в массиве content. Это будет собранный в классе инпутов
+     * блок с собранными инпутами. Присоединяет фон и меню к body.
+     */
     show() {
         this.content.forEach((el) => {
-            this.menu.addItems(el.compiled);
+            this.menu.addItems(el.getCompiled());
         });
         document.body.appendChild(this.background);
         document.body.appendChild(this.menu.container);

@@ -14,11 +14,17 @@ class Core
 {
     static public $fields = ['id' => 'nonrequried'];
     static public $model = null;
-
+    static public $modelMap = [];
     public $id = null;
     public $data = null;
     public $saveValues = [];
 
+    //todo id может быть задан из данных либо при создании, реализовать только один способ
+    /**
+     * Core constructor.
+     * Id может быть передан из js или взят из пришедших данных
+     * @param null $id
+     */
     public function __construct($id = null)
     {
         if ($id) {
@@ -31,16 +37,6 @@ class Core
         return static::$fields;
     }
 
-    /**
-     * @param $data string json object with values
-     */
-//    public function submit() {
-////        header("Content-Type: application/json");
-//// build a PHP variable from JSON sent using POST method
-//
-//        $this->data = json_decode(stripslashes(file_get_contents("php://input")));
-//    }
-
     public function submit()
     {
         $this->setData();
@@ -48,41 +44,84 @@ class Core
         $this->saveModelObjectFromSaveValues();
     }
 
+    /**
+     * Получение данных из реквеста.
+     */
     public function setData()
     {
+        // получается объект, далее в dataToSaveValues преобразуется в массив
         $this->data = json_decode(stripslashes(file_get_contents("php://input")));
     }
 
+    /**
+     * Преобразование полученных данных из реквеста в готовые к записи данные.
+     */
     public function setSaveValues()
     {
         $this->dataToSaveValues();
+        $this->mapDataToModel();
+        $this->getIdFromData();
     }
 
+    /**
+     * Получает id записи из полученных данных.
+     */
+    public function getIdFromData()
+    {
+        foreach ($this->saveValues as $value) {
+            if ($value['key'] == 'id') {
+                $this->id = $value['value'];
+                break;
+            }
+        }
+    }
+
+    /**
+     * Смена ключей данных для сохранения на те что в модели.
+     */
+    public function mapDataToModel()
+    {
+        foreach ($this->saveValues as &$set) {
+            $set['key'] = static::$modelMap[$set['key']];
+        }
+    }
+
+    /**
+     * Преобразует полученные данные из объекта в массив по типу
+     * [
+     *  'key' => название_ключа,
+     *  'value' => значение,
+     * ]
+     */
     public function dataToSaveValues()
     {
         foreach (static::$fields as $field => $param) {
-//            if ($param == 'selfcontained') {
-//                if (isset($this->$field)) {
-//                    $this->saveValues[] = ['key' => $field, 'value' => $this->$field];
-//                } else {
-//                    todo throw error
-//                }
-//                continue;
-//            }
-//            print_r($this->data->$field);
             if (isset($this->data->$field)) { //todo проверку на обязательные поля
                 $this->saveValues[] = ['key' => $field, 'value' => $this->data->$field];
             }
         }
     }
 
+    /**
+     * Запись данных в модель. Если задан id то происходит перезапись, без id - созданые новой записи.
+     */
     public function saveModelObjectFromSaveValues()
     {
-        //todo поля пришедшие и поля в модели отличаются
+        if ($this->id) {
+            $this->update();
+        }
+        $this->create();
+    }
+
+    public function create()
+    {
+        //todo
+    }
+
+    public function update()
+    {
         $objname = 'App\\' . static::$model;
-        //todo update модель а не insert или проерку на $this->id
         $obj = $objname::find($this->id);
-        var_dump($this->saveValues);
         foreach ($this->saveValues as $values) {
             $key = $values['key'];
             $obj->$key = $values['value'] . '.mp3';

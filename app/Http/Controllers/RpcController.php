@@ -19,6 +19,12 @@ class RpcController extends Controller
         }
     }
 
+    /**
+     * Функция получения полей формы. Они должны быть указаны статических массивом в классе формы.
+     * Класс должны называться так же как и класс соответствующей формы в js.
+     *
+     * @param $form
+     */
     public function getFields($form)
     {
         if (file_exists(app_path("_rpc/forms/{$form}.php"))) {

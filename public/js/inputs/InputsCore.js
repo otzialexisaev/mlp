@@ -2,7 +2,7 @@ class InputsCore {
     constructor(name, options = {}) {
         this.name = name;
         this.options = options;
-        this.values = {};
+        this.values = [];
         //todo задать класс контейнеру
 
         // this.compiled = document.createElement('div');
@@ -13,17 +13,7 @@ class InputsCore {
     }
 
     compileForm() {
-        // let xhr = new XMLHttpRequest();
-        // let _self = this;
-        // xhr.open('GET', '/_rpc/inputs/' + this.inputName + '.php?name=' + this.name + '&options=' + this.options, false);
-        // //todo async false is deprecated
-        // xhr.onload = function () {
-        //     // _self.compiled.insertAdjacentHTML('beforeend', this.response);
-        //     console.log(this.response)
-        //     _self.compiled = _self.createElementFromHTML(this.response);
-        //     console.log(_self.compiled)
-        // };
-        // xhr.send();
+        // to be overridden in child classes
     }
 
     getCompiled() {
@@ -31,7 +21,7 @@ class InputsCore {
     }
 
     collectInputs() {
-
+        // to be overridden in child classes
     }
 
     createElementFromHTML(htmlString) {

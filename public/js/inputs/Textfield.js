@@ -1,7 +1,6 @@
 class Textfield extends InputsCore {
     constructor(name, options) {
         super(name, options);
-        this.values = [];
     }
 
     compileForm() {
