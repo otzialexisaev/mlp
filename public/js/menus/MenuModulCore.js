@@ -14,6 +14,7 @@ class MenuModulCore {
             //todo разные дивы для кнопки успеха и отмены вместо одного подвала
             contentBottom : null,
             addItems(el) {
+                // console.log(el);
                 this.contentItems.appendChild(el);
             },
             addSuccessBtn(btn) {
@@ -138,6 +139,7 @@ class MenuModulCore {
      */
     addContent(el) {
         this.content.push(el);
+        // console.log(this.content)
     }
 
     /**
@@ -148,6 +150,7 @@ class MenuModulCore {
         this.content.forEach((el) => {
             this.menu.addItems(el.getCompiled());
         });
+        console.log('appending menu');
         document.body.appendChild(this.background);
         document.body.appendChild(this.menu.container);
     }

@@ -10,6 +10,7 @@ class InputsCore {
         this.compiled = document.createElement('div');
         this.compiled.classList.add('menucore-input-item')
         this.compileForm();
+        console.log('just after compileForm');
     }
 
     compileForm() {

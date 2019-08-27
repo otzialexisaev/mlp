@@ -12,6 +12,7 @@ songMenuDropDown.getSettingsItem().addEventListener('click', function () {
 songMenuDropDown.getAnotherPlaylistItem().addEventListener('click', function () {
     let addToPlaylistMenu = new AddToPlaylistMenuModul();
     let playlistSelect = new PlaylistMultipleSelect();
+    console.log('after new input');
     addToPlaylistMenu.addContent(playlistSelect);
     addToPlaylistMenu.show();
 });

@@ -9,6 +9,12 @@ use Illuminate\Http\Request;
 
 class PlaylistsController extends Controller
 {
+    public function getPlaylists()
+    {
+        $playlists = Playlist::all();
+        echo json_encode($playlists);
+    }
+
     /**
      * Display a listing of the resource.
      *
