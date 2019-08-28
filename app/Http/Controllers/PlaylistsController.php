@@ -9,10 +9,43 @@ use Illuminate\Http\Request;
 
 class PlaylistsController extends Controller
 {
+    /**
+     * Возвращает все плэйлисты в формате json массивом объектов. Если передан songId - возвращает
+     * ..............................................................
+     *
+     * @param null $songId
+     */
     public function getPlaylists()
     {
         $playlists = Playlist::all();
-        echo json_encode($playlists);
+        $songId = isset($_REQUEST['songId']) ? $_REQUEST['songId'] : false;
+//        var_dump($playlists);
+        if (!$songId) {
+            echo json_encode($playlists);
+            return;
+        }
+        $relations = PlaylistToSong::where('song_id', '=', $songId)->get()->toArray();
+        $tempRel = [];
+        foreach ($relations as $rel) {
+            array_push($tempRel, $rel['playlist_id']);
+        }
+        $relations = $tempRel;
+//        var_dump($relations);
+        $playlistsWithValues = [];
+        foreach ($playlists as $playlist) {
+            $playlistsWithValues[$playlist->id] = [
+                'id' => $playlist->id,
+                'name' => $playlist->name,
+                'value' => 0, //this value is to be checked and changed below if needed
+            ];
+            if (in_array($playlist->id, $relations)) {
+                $playlistsWithValues[$playlist->id]['value'] = 1;
+            }
+        }
+//        var_dump($playlistsWithValues);
+        echo json_encode(array_values($playlistsWithValues));
+
+//        echo json_encode($playlists);
     }
 
     /**

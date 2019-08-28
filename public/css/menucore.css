@@ -41,6 +41,10 @@
     border: 1px solid black;
 }
 
+.menucore-select-singletable:hover {
+    background-color: #C9D6FF;
+}
+
 .menucore-select-singletablecell {
     align-self: center;
 }
