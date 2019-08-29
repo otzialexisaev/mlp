@@ -28,35 +28,38 @@ class PlaylistMultipleSelect extends InputsCore {
     // (потому что респонс еще не пришел) попадает на форму, и потом в него аппендится респонс, когда он придет,
     // поэтому инпут появляется с задержкой
     async compileForm() {
-        this.playlists = await this.requestPlaylists();
-        // console.log(this.playlists);
-        this.playlists.forEach((playlist) => {
-            let playlistContainer = document.createElement('div');
-            playlistContainer.classList.add('menucore-select-singletable');
-            let playlistCell = document.createElement('div');
-            playlistCell.classList.add('menucore-select-singletablecell');
-            playlistCell.innerText = playlist.name;
-            playlistContainer.appendChild(playlistCell);
-            this.items[playlist.id] = {
-                div : playlistContainer,
-                value : playlist.hasOwnProperty('value') ? playlist.value : 0,
-            };
-            if (this.items[playlist.id]['value'] === 1) {
-                this.items[playlist.id]['div'].classList.add('selected');
-                //todo отдельный класс для них вместо selected
-            }
-            playlistContainer.addEventListener('click', () => {
-                this.items[playlist.id].value = this.items[playlist.id].value === 0 ? 1 : 0;
-                if (this.items[playlist.id].value) {
-                    this.items[playlist.id].div.classList.add('selected')
-                } else {
-                    this.items[playlist.id].div.classList.remove('selected')
+        return new Promise(async (resolve, reject) => {
+            this.playlists = await this.requestPlaylists();
+            // console.log(this.playlists);
+            this.playlists.forEach((playlist) => {
+                let playlistContainer = document.createElement('div');
+                playlistContainer.classList.add('menucore-select-singletable');
+                let playlistCell = document.createElement('div');
+                playlistCell.classList.add('menucore-select-singletablecell');
+                playlistCell.innerText = playlist.name;
+                playlistContainer.appendChild(playlistCell);
+                this.items[playlist.id] = {
+                    div: playlistContainer,
+                    value: playlist.hasOwnProperty('value') ? playlist.value : 0,
+                };
+                if (this.items[playlist.id]['value'] === 1) {
+                    this.items[playlist.id]['div'].classList.add('selected');
+                    //todo отдельный класс для них вместо selected
                 }
-                console.log(this.items);
-            });
-            this.compiled.appendChild(playlistContainer);
-            // console.log(playlist.name)
+                playlistContainer.addEventListener('click', () => {
+                    this.items[playlist.id].value = this.items[playlist.id].value === 0 ? 1 : 0;
+                    if (this.items[playlist.id].value) {
+                        this.items[playlist.id].div.classList.add('selected')
+                    } else {
+                        this.items[playlist.id].div.classList.remove('selected')
+                    }
+                    console.log(this.items);
+                });
+                this.compiled.appendChild(playlistContainer);
+                // console.log(playlist.name)
+            })
         })
+
         // this.compiled.innerHTML = this.playlists;
 
     }

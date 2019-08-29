@@ -163,7 +163,7 @@ class MenuModulCore {
     async show() {
         let keys = Object.keys(this.content);
         for (const key of keys) {
-            await this.content[key].compileForm();
+            this.content[key].compileForm().then();
             this.menu.addItems(this.content[key].getCompiled());
         }
         document.body.appendChild(this.background);
