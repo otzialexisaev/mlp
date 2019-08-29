@@ -1,4 +1,4 @@
-class SongMenu {
+class SongMenuDropdown { //класс прикрепляет кнопку к songContainer'ам
     constructor() {
         this.songContainers = document.getElementsByClassName('song-menu-container');
         this.currentContainer = null;

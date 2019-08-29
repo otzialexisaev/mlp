@@ -1,4 +1,4 @@
-let songMenuDropDown = new SongMenu();
+let songMenuDropDown = new SongMenuDropdown();
 songMenuDropDown.getSettingsItem().addEventListener('click', function () {
     let songMenuModul = new SongMenuModul();
     songMenuModul.addValue('songId', songMenuDropDown.getMenuSongId());
