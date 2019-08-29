@@ -3,7 +3,7 @@ class Textfield extends InputsCore {
         super(name, options);
     }
 
-    compileForm() {
+    async compileForm() {
         let label = document.createElement('label');
         let input = document.createElement('input');
         input.setAttribute('name', this.name);

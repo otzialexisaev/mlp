@@ -98,10 +98,23 @@ class MenuModulCore {
 
     sendForm() {
         let token = document.head.querySelector("meta[name=csrf-token]").content;
-
-        this.fields.forEach((el) => {
-            this.sendValues[this.content[el]] = this.content[el].collectInputs();
+        console.log(this.fields)
+        let keys = Object.keys(this.fields);
+        console.log(keys)
+        console.log(this.content)
+        keys.forEach((key) => {
+            console.log(key)
+            if (this.sendValues.hasOwnProperty(key)) {
+                console.log('asd')
+                return;
+            }
+            this.sendValues[this.content[key].getName()] = this.content[key].collectInputs();
         });
+        console.log(this.sendValues);
+        // return;
+        // this.fields.forEach((el) => {
+        //     this.sendValues[this.content[el]] = this.content[el].collectInputs();
+        // });
 
         // this.content.forEach((el) => {
         //     this.sendValues[el.name] = el.collectInputs();
@@ -131,11 +144,11 @@ class MenuModulCore {
         //     return false;
         // }
 
-        // let xhr = new XMLHttpRequest();
-        // xhr.open('POST', this.submitRequest);
-        // xhr.setRequestHeader('Content-Type', 'application/json');
-        // // xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-        // xhr.setRequestHeader("X-CSRF-TOKEN", token);
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', this.submitRequest);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        // xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+        xhr.setRequestHeader("X-CSRF-TOKEN", token);
         // console.log(this.sendValues)
         xhr.send(JSON.stringify(this.sendValues));
 

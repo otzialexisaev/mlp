@@ -2,6 +2,11 @@ class InputsCore {
     constructor(name, options = {}) {
         this.name = name;
         this.options = options;
+        /**
+         * Значения которые задаются в collectInputs и потом отдаются в меню для отправки в пхп.
+         *
+         * @type {Array}
+         */
         this.values = [];
         //todo задать класс контейнеру
 

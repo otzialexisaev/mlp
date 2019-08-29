@@ -8,8 +8,6 @@ class PlaylistMultipleSelect extends InputsCore {
 
     requestPlaylists() {
         return new Promise((resolve, reject) => {
-            let playlists = null;
-
             let xhr = new XMLHttpRequest();
             xhr.open('GET', "_rpc/playlists/getPlaylists?songId=" + this.options.songId);
             // xhr.open('GET', "_rpc/playlists/getPlaylists");
@@ -17,11 +15,7 @@ class PlaylistMultipleSelect extends InputsCore {
                 resolve(JSON.parse(xhr.response));
             };
             xhr.send();
-
         })
-
-        //todo запрос плейлистов
-        // return playlists;
     }
 
     // получается прога идет дальше и меню высвечивается без этого элемента, но compiled который все еще пустой див,
@@ -29,7 +23,7 @@ class PlaylistMultipleSelect extends InputsCore {
     // поэтому инпут появляется с задержкой
     async compileForm() {
         return new Promise(async (resolve, reject) => {
-            this.playlists = await this.requestPlaylists();
+            await this.requestPlaylists().then((response) => this.playlists = response);
             // console.log(this.playlists);
             this.playlists.forEach((playlist) => {
                 let playlistContainer = document.createElement('div');
@@ -57,7 +51,9 @@ class PlaylistMultipleSelect extends InputsCore {
                 });
                 this.compiled.appendChild(playlistContainer);
                 // console.log(playlist.name)
-            })
+            });
+
+            resolve();
         })
 
         // this.compiled.innerHTML = this.playlists;
@@ -66,6 +62,7 @@ class PlaylistMultipleSelect extends InputsCore {
 
     collectInputs() {
         //todo
+        return [];
     }
 
     // async requestPlaylists() {

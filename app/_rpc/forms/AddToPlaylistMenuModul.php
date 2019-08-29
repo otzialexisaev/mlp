@@ -7,7 +7,7 @@ use App;
 
 class AddToPlaylistMenuModul extends Forms\Core
 {
-    static public $fields = ['songId', 'playlistsIds'];
+    static public $fields = ['songId' => 'required', 'playlistsIds' => 'required'];
     static public $model = 'PlaylistToSong';
 
     public function setSaveValues() //todo скомбинить saveValues из пришедших данных
