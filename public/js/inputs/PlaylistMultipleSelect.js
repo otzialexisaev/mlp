@@ -1,6 +1,6 @@
 class PlaylistMultipleSelect extends InputsCore {
-    constructor(options) {
-        super('playlistmultipleselect', options);
+    constructor(name, options) {
+        super(name, options);
         this.items = [];
         // this.playlists = this.requestPlaylists();
 

@@ -9,16 +9,19 @@ class InputsCore {
 
         this.compiled = document.createElement('div');
         this.compiled.classList.add('menucore-input-item')
-        this.compileForm();
-        console.log('just after compileForm');
+        // this.compileForm();
     }
 
-    compileForm() {
+    async compileForm() {
         // to be overridden in child classes
     }
 
     getCompiled() {
         return this.compiled;
+    }
+
+    getName() {
+        return this.name;
     }
 
     collectInputs() {

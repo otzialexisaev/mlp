@@ -4,7 +4,14 @@ class MenuModulCore {
         this.rpcFolder = rpc;
         this.fieldsRequest = "_rpc/forms/" + this.rpcFolder + '/getfields';
         this.submitRequest = "_rpc/forms/" + this.rpcFolder + '/submit';
-        this.content = [];
+        this.content = {};
+        /**
+         * Эти поля получаются из запроса. Добавленные в меню инпуты должны иметь эти поля чтобы потом крутить эти поля
+         * и собирать так данные из инпутов.
+         *
+         * Также поля могут быть получены извне сразу в sendValues, на что есть(будет) проверка
+         * //todo
+         */
         this.fields = null;
         this.sendValues = {};
         this.menu = {
@@ -92,9 +99,14 @@ class MenuModulCore {
     sendForm() {
         let token = document.head.querySelector("meta[name=csrf-token]").content;
 
-        this.content.forEach((el) => {
-            this.sendValues[el.name] = el.collectInputs();
+        this.fields.forEach((el) => {
+            this.sendValues[this.content[el]] = this.content[el].collectInputs();
         });
+
+        // this.content.forEach((el) => {
+        //     this.sendValues[el.name] = el.collectInputs();
+        // });
+
         // let sendValues = {};
         // console.log(this.fields)
         //todo пусть тогда элементы инпутов и будут хранить данные а форма будет их получать и передавать
@@ -118,11 +130,12 @@ class MenuModulCore {
         //     console.log("пустой объект с посылаемыми данными");
         //     return false;
         // }
-        let xhr = new XMLHttpRequest();
-        xhr.open('POST', this.submitRequest);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        // xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-        xhr.setRequestHeader("X-CSRF-TOKEN", token);
+
+        // let xhr = new XMLHttpRequest();
+        // xhr.open('POST', this.submitRequest);
+        // xhr.setRequestHeader('Content-Type', 'application/json');
+        // // xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+        // xhr.setRequestHeader("X-CSRF-TOKEN", token);
         // console.log(this.sendValues)
         xhr.send(JSON.stringify(this.sendValues));
 
@@ -138,19 +151,21 @@ class MenuModulCore {
      * @param el InputsCore
      */
     addContent(el) {
-        this.content.push(el);
-        // console.log(this.content)
+        // this.content.push(el);
+        this.content[el.getName()] = el;
+        console.log(this.content)
     }
 
     /**
      * Добавляет в меню все каждый аттрибут compiled элементов в массиве content. Это будет собранный в классе инпутов
      * блок с собранными инпутами. Присоединяет фон и меню к body.
      */
-    show() {
-        this.content.forEach((el) => {
-            this.menu.addItems(el.getCompiled());
-        });
-        console.log('appending menu');
+    async show() {
+        let keys = Object.keys(this.content);
+        for (const key of keys) {
+            await this.content[key].compileForm();
+            this.menu.addItems(this.content[key].getCompiled());
+        }
         document.body.appendChild(this.background);
         document.body.appendChild(this.menu.container);
     }
