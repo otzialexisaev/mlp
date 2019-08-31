@@ -62,7 +62,13 @@ class PlaylistMultipleSelect extends InputsCore {
 
     collectInputs() {
         //todo
-        return [];
+        console.log(this.items)
+        this.items.forEach((el, index) => {
+            console.log(el)
+            this.values[index] = el.value;
+        });
+        console.log(this.values)
+        return this.values;
     }
 
     // async requestPlaylists() {

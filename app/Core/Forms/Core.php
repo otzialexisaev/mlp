@@ -40,7 +40,12 @@ class Core
     public function submit()
     {
         $this->setData();
-        $this->setSaveValues();
+        $this->dataToSaveValues();
+        $this->mapDataToModel();
+        // если в модели нужен конкретный id
+        if (in_array('id', array_values(static::$modelMap))) {
+            $this->getIdFromSaveValues();
+        }
         $this->saveModelObjectFromSaveValues();
     }
 
@@ -51,6 +56,118 @@ class Core
     {
         // получается объект, далее в dataToSaveValues преобразуется в массив
         $this->data = json_decode(stripslashes(file_get_contents("php://input")));
+//        var_dump($this->data);
+    }
+
+    /**
+     * Преобразует полученные данные из объекта в массив по типу
+     * [
+     *  'key' => название_ключа,
+     *  'value' => значение,
+     * ]
+     * Если нужно создать/обновить несколько объектов модели по какому то пришедшему полю,
+     * то нужно указать это поле в $multiValue.
+     * Если нужно так же сохранить в saveValues ключ этого поля,
+     * то нужно задать как он будет называться в $useMultiValueKeyAs.
+     *
+     * @param null $multiValue
+     * @param bool $useMultiValueKeyAs
+     */
+    //todo сделать возможность передть массивом алиас для $multiValue
+    public function dataToSaveValues($multiValue = null, $useMultiValueKeyAs = false)
+    {
+        if (!$multiValue) {
+            foreach (static::$fields as $field => $param) {
+                if (isset($this->data->$field)) { //todo проверку на обязательные поля
+                    $this->saveValues[0][] = ['key' => $field, 'value' => $this->data->$field];
+                }
+            }
+//            var_dump($this->saveValues);
+        }
+        else if (!is_array($multiValue) && isset($this->data->$multiValue)){
+            if ($useMultiValueKeyAs) {
+                foreach ($this->data->$multiValue as $key => $value) {
+                    $size = sizeof($this->saveValues);
+                    foreach (static::$fields as $field => $param) {
+                        if ($field == $multiValue) {
+                            $this->saveValues[$size][] = [
+                                'key' => $multiValue,
+                                'value' => $value,
+                            ];
+                            $this->saveValues[$size][] = [
+                                'key' => $useMultiValueKeyAs,
+                                'value' => $key,
+                            ];
+                        } else {
+                            $this->saveValues[$size][] = [
+                                'key' => $field,
+                                'value' => $this->data->$field,
+                            ];
+                        }
+                    }
+                }
+            } else {
+                foreach ($this->data->$multiValue as $value) {
+                    $size = sizeof($this->saveValues);
+                    foreach (static::$fields as $field => $param) {
+                        if ($field == $multiValue) {
+                            $this->saveValues[$size][] = [
+                                'key' => $multiValue,
+                                'value' => $value,
+                            ];
+                        } else {
+                            $this->saveValues[$size][] = [
+                                'key' => $field,
+                                'value' => $this->data->$field,
+                            ];
+                        }
+                    }
+                }
+            }
+        } else if (is_array($multiValue) && isset($this->data->{array_values($multiValue)[0]})) {
+            if ($useMultiValueKeyAs) {
+                foreach ($this->data->{array_values($multiValue)[0]} as $key => $value) {
+                    $size = sizeof($this->saveValues);
+                    foreach (static::$fields as $field => $param) {
+                        if ($field == array_values($multiValue)[0]) {
+                            $this->saveValues[$size][] = [
+                                'key' => array_keys($multiValue)[0],
+                                'value' => $value,
+                            ];
+                            $this->saveValues[$size][] = [
+                                'key' => $useMultiValueKeyAs,
+                                'value' => $key,
+                            ];
+                        } else {
+                            $this->saveValues[$size][] = [
+                                'key' => $field,
+                                'value' => $this->data->$field,
+                            ];
+                        }
+                    }
+                }
+            } else {
+                foreach ($this->data->{array_values($multiValue)[0]} as $value) {
+                    $size = sizeof($this->saveValues);
+                    foreach (static::$fields as $field => $param) {
+                        if ($field == array_values($multiValue)[0]) {
+                            $this->saveValues[$size][] = [
+                                'key' => array_keys($multiValue)[0],
+                                'value' => $value,
+                            ];
+                        } else {
+                            $this->saveValues[$size][] = [
+                                'key' => $field,
+                                'value' => $this->data->$field,
+                            ];
+                        }
+                    }
+                }
+            }
+        }
+        echo "<pre>"; print_r($this->saveValues); echo "</pre>";
+//        var_dump($this->saveValues);
+
     }
 
     /**
@@ -58,20 +175,20 @@ class Core
      */
     public function setSaveValues()
     {
-        $this->dataToSaveValues();
-        $this->mapDataToModel();
-        $this->getIdFromData();
+
     }
 
     /**
      * Получает id записи из полученных данных.
      */
-    public function getIdFromData()
+    public function getIdFromSaveValues()
     {
-        foreach ($this->saveValues as $value) {
-            if ($value['key'] == 'id') {
-                $this->id = $value['value'];
-                break;
+        foreach ($this->saveValues as &$set) {
+            foreach ($set as $setValue) {
+                if ($setValue['key'] == 'id') {
+                    $this->id = $setValue['value'];
+                    break;
+                }
             }
         }
     }
@@ -82,22 +199,8 @@ class Core
     public function mapDataToModel()
     {
         foreach ($this->saveValues as &$set) {
-            $set['key'] = static::$modelMap[$set['key']];
-        }
-    }
-
-    /**
-     * Преобразует полученные данные из объекта в массив по типу
-     * [
-     *  'key' => название_ключа,
-     *  'value' => значение,
-     * ]
-     */
-    public function dataToSaveValues()
-    {
-        foreach (static::$fields as $field => $param) {
-            if (isset($this->data->$field)) { //todo проверку на обязательные поля
-                $this->saveValues[] = ['key' => $field, 'value' => $this->data->$field];
+            foreach ($set as $setValue) {
+                $setValue['key'] = static::$modelMap[$setValue['key']];
             }
         }
     }
@@ -107,10 +210,10 @@ class Core
      */
     public function saveModelObjectFromSaveValues()
     {
-        if ($this->id) {
-            $this->update();
-        }
-        $this->create();
+//        if ($this->id) {
+//            $this->update();
+//        }
+//        $this->create();
     }
 
     public function create()

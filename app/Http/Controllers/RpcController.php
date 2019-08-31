@@ -44,7 +44,7 @@ class RpcController extends Controller
 
     }
 
-    public function inputs($formtype) {
-        include app_path("/_rpc/inputs/{$formtype}");
-    }
+//    public function inputs($formtype) {
+//        include app_path("/_rpc/inputs/{$formtype}");
+//    }
 }

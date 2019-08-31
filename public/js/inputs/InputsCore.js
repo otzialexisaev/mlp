@@ -5,12 +5,9 @@ class InputsCore {
         /**
          * Значения которые задаются в collectInputs и потом отдаются в меню для отправки в пхп.
          *
-         * @type {Array}
+         * @type {Object}
          */
-        this.values = [];
-        //todo задать класс контейнеру
-
-        // this.compiled = document.createElement('div');
+        this.values = {};
 
         this.compiled = document.createElement('div');
         this.compiled.classList.add('menucore-input-item')
@@ -33,14 +30,14 @@ class InputsCore {
         // to be overridden in child classes
     }
 
-    createElementFromHTML(htmlString) {
-        let div = document.createElement('div');
-        div.innerHTML = htmlString.trim();
-        // div.insertAdjacentHTML('beforeend', htmlString.trim());
-        console.log(div.childNodes)
-
-        // Change this to div.childNodes to support multiple top-level nodes
-        // return div.firstChild;
-        return div.childNodes;
-    }
+    // createElementFromHTML(htmlString) {
+    //     let div = document.createElement('div');
+    //     div.innerHTML = htmlString.trim();
+    //     // div.insertAdjacentHTML('beforeend', htmlString.trim());
+    //     console.log(div.childNodes)
+    //
+    //     // Change this to div.childNodes to support multiple top-level nodes
+    //     // return div.firstChild;
+    //     return div.childNodes;
+    // }
 }

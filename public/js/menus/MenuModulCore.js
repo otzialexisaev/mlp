@@ -20,6 +20,10 @@ class MenuModulCore {
             contentItems : null,
             //todo разные дивы для кнопки успеха и отмены вместо одного подвала
             contentBottom : null,
+            /**
+             * Отображает переданные элементы в блоке инпутов
+             * @param el
+             */
             addItems(el) {
                 // console.log(el);
                 this.contentItems.appendChild(el);
@@ -27,6 +31,9 @@ class MenuModulCore {
             addSuccessBtn(btn) {
                 this.contentBottom.appendChild(btn);
             },
+            /**
+             * Создает области для инпутов
+             */
             init() {
                 this.container = document.createElement('div');
                 this.contentItems = document.createElement('div');
@@ -41,7 +48,7 @@ class MenuModulCore {
                 this.contentArea.appendChild(this.contentBottom);
             }
         };
-        this.init();
+        // this.init();
     }
 
     /**
@@ -54,29 +61,12 @@ class MenuModulCore {
         this.sendValues[field] = value;
     }
 
-    init() {
+    async init() {
         this.initBackground();
         this.initBtn();
         this.menu.init();
         this.menu.addSuccessBtn(this.submitBtn);
-        this.getFields();
-    }
-
-    /**
-     * Запрашивает поля у пхп класса с таким же именем поля, которые дожны содержаться в форме.
-     * //todo проверка на эти поля
-     */
-    getFields() {
-        let xhr = new XMLHttpRequest();
-        xhr.open('GET', this.fieldsRequest, true);
-        // console.log(this.fieldsRequest)
-        xhr.onload = () => {
-            // console.log(xhr.responseText)
-            this.fields = JSON.parse(xhr.response);
-            // callback(this);
-            // this._show();
-        };
-        xhr.send();
+        await this.getFields();
     }
 
     initBackground() {
@@ -96,53 +86,37 @@ class MenuModulCore {
         };
     }
 
+    /**
+     * Запрашивает поля у пхп класса с таким же именем поля, которые дожны содержаться в форме.
+     * //todo проверка на эти поля
+     */
+    getFields() {
+        return new Promise(((resolve, reject) => {
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', this.fieldsRequest, true);
+            xhr.onload = () => {
+                this.fields = JSON.parse(xhr.response);
+                resolve();
+            };
+            xhr.send();
+        }));
+    }
+
     sendForm() {
         let token = document.head.querySelector("meta[name=csrf-token]").content;
-        console.log(this.fields)
+        // console.log(this.fields)
         let keys = Object.keys(this.fields);
-        console.log(keys)
-        console.log(this.content)
+        // console.log(keys)
+        // console.log(this.content)
         keys.forEach((key) => {
-            console.log(key)
+            // console.log(key)
             if (this.sendValues.hasOwnProperty(key)) {
-                console.log('asd')
+                // console.log('asd')
                 return;
             }
             this.sendValues[this.content[key].getName()] = this.content[key].collectInputs();
         });
         console.log(this.sendValues);
-        // return;
-        // this.fields.forEach((el) => {
-        //     this.sendValues[this.content[el]] = this.content[el].collectInputs();
-        // });
-
-        // this.content.forEach((el) => {
-        //     this.sendValues[el.name] = el.collectInputs();
-        // });
-
-        // let sendValues = {};
-        // console.log(this.fields)
-        //todo пусть тогда элементы инпутов и будут хранить данные а форма будет их получать и передавать
-
-        // for (const key of Object.keys(this.fields)) {
-            // if (this.fields[key] === 'selfcontained' && this[key]) {
-            //     if (key === 'id') {
-            //         this.submitRequest += '?id=' + this[key];
-            //     } else {
-            //         sendValues[key] = this[key];
-            //     }
-            //     continue;
-            // }
-            // if (document.getElementById(key)) {
-            //     this.sendValues[key] = document.getElementById(key).value;
-            // }
-        // }
-
-        // if (Object.keys(sendValues).length === 0) {
-        //     //todo вывод ошибки ну и проверку опять же на незаполненные поля
-        //     console.log("пустой объект с посылаемыми данными");
-        //     return false;
-        // }
 
         let xhr = new XMLHttpRequest();
         xhr.open('POST', this.submitRequest);
@@ -166,7 +140,7 @@ class MenuModulCore {
     addContent(el) {
         // this.content.push(el);
         this.content[el.getName()] = el;
-        console.log(this.content)
+        // console.log(this.content)
     }
 
     /**
@@ -177,6 +151,8 @@ class MenuModulCore {
         let keys = Object.keys(this.content);
         for (const key of keys) {
             this.content[key].compileForm().then();
+            // getCompiled() is just an empty div at first before content[key].compileForm() is finished
+            // and .then compiled input is appended to that div.
             this.menu.addItems(this.content[key].getCompiled());
         }
         document.body.appendChild(this.background);
