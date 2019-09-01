@@ -11,12 +11,23 @@ class SongMenuModul extends Forms\Core
     //по имени больше не находит
 
     static public $fields = ['songId' => 'required', 'songName'=>'required'];
-    static public $model = 'Song';
+    static public $modelName = 'Song';
 
     static public $modelMap = [
         'songId' => 'id',
         'songName' => 'name',
     ];
+
+    public function dataToSaveValues($multiValue = null, $useMultiValueKeyAs = false)
+    {
+        parent::dataToSaveValues($multiValue, $useMultiValueKeyAs);
+        foreach ($this->saveValues as &$set) {
+            if (isset($set['songName'])) {
+                var_dump('songname');
+                $set['songName'] .= '.mp3';
+            }
+        }
+    }
 }
 
 

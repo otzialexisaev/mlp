@@ -52,7 +52,6 @@ class PlaylistMultipleSelect extends InputsCore {
                 this.compiled.appendChild(playlistContainer);
                 // console.log(playlist.name)
             });
-
             resolve();
         })
 

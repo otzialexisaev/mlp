@@ -7,98 +7,32 @@ use App;
 
 class AddToPlaylistMenuModul extends Forms\Core
 {
-    static public $fields = ['songId' => 'required', 'playlistsIds' => 'required'];
-    static public $model = 'PlaylistToSong';
-
-//    public function setSaveValues() //todo скомбинить saveValues из пришедших данных
-//    {
-//
-//    }
+    static public $fields = ['song_id' => 'required', 'playlistsIds' => 'required'];
+    static public $modelName = 'PlaylistToSong';
 
     public function submit()
     {
         $this->setData();
-        $this->dataToSaveValues(['toSave' => 'playlistsIds'], 'playlistId');
-//        $this->setSaveValues();
-//        var_dump($this->saveValues);
-//        $this->saveModelObjectFromSaveValues();
+        $this->dataToSaveValues(['toSave' => 'playlistsIds'], 'playlist_id');
+        $this->saveModelObjectFromSaveValues();
     }
 
-    /*
-     * Сейчас данные приходят так, думаю можно как то проверить toSave и дальше что то с этим делать
-     *
-     * Array
-(
-    [0] => Array
-        (
-            [0] => Array
-                (
-                    [key] => songId
-                    [value] => 2
-                )
+    public function saveModelObjectFromSaveValues()
+    {
+        foreach ($this->saveValues as $set) {
+            var_dump($set);
+            echo '<br>';
+            if (isset($set['toSave']) && $set['toSave'] == 1) {
+                unset($set['toSave']);
 
-            [1] => Array
-                (
-                    [key] => toSave
-                    [value] => 1
-                )
-
-            [2] => Array
-                (
-                    [key] => playlistId
-                    [value] => 1
-                )
-
-        )
-
-    [1] => Array
-        (
-            [0] => Array
-                (
-                    [key] => songId
-                    [value] => 2
-                )
-
-            [1] => Array
-                (
-                    [key] => toSave
-                    [value] => 1
-                )
-
-            [2] => Array
-                (
-                    [key] => playlistId
-                    [value] => 2
-                )
-
-        )
-
-    [2] => Array
-        (
-            [0] => Array
-                (
-                    [key] => songId
-                    [value] => 2
-                )
-
-            [1] => Array
-                (
-                    [key] => toSave
-                    [value] => 0
-                )
-
-            [2] => Array
-                (
-                    [key] => playlistId
-                    [value] => 3
-                )
-
-        )
-)
-     */
-
-    public function dataToSaveValues($multiValue = null, $useMultiValueKeyAs = false) {
-        parent::dataToSaveValues($multiValue, $useMultiValueKeyAs);
+                $this->create($set);
+            } else if (isset($set['toSave']) && $set['toSave'] == 0) {
+                unset($set['toSave']);
+                $this->delete(false, $set);
+            } else {
+                //todo error logging
+            }
+        }
     }
 }
 

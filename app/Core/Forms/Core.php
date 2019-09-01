@@ -13,13 +13,15 @@ use App;
 class Core
 {
     static public $fields = ['id' => 'nonrequried'];
-    static public $model = null;
+    static public $modelName = null;
     static public $modelMap = [];
     public $id = null;
     public $data = null;
     public $saveValues = [];
+    public $model = null;
 
     //todo id может быть задан из данных либо при создании, реализовать только один способ
+
     /**
      * Core constructor.
      * Id может быть передан из js или взят из пришедших данных
@@ -30,6 +32,7 @@ class Core
         if ($id) {
             $this->id = $id;
         }
+        $this->model = 'App\\' . static::$modelName;
     }
 
     static public function getFields()
@@ -79,30 +82,20 @@ class Core
         if (!$multiValue) {
             foreach (static::$fields as $field => $param) {
                 if (isset($this->data->$field)) { //todo проверку на обязательные поля
-                    $this->saveValues[0][] = ['key' => $field, 'value' => $this->data->$field];
+                    $this->saveValues[0][$field] = $this->data->$field;
                 }
             }
 //            var_dump($this->saveValues);
-        }
-        else if (!is_array($multiValue) && isset($this->data->$multiValue)){
+        } else if (!is_array($multiValue) && isset($this->data->$multiValue)) {
             if ($useMultiValueKeyAs) {
                 foreach ($this->data->$multiValue as $key => $value) {
                     $size = sizeof($this->saveValues);
                     foreach (static::$fields as $field => $param) {
                         if ($field == $multiValue) {
-                            $this->saveValues[$size][] = [
-                                'key' => $multiValue,
-                                'value' => $value,
-                            ];
-                            $this->saveValues[$size][] = [
-                                'key' => $useMultiValueKeyAs,
-                                'value' => $key,
-                            ];
+                            $this->saveValues[$size][$multiValue] = $value;
+                            $this->saveValues[$size][$useMultiValueKeyAs] = $key;
                         } else {
-                            $this->saveValues[$size][] = [
-                                'key' => $field,
-                                'value' => $this->data->$field,
-                            ];
+                            $this->saveValues[$size][$field] = $this->data->$field;
                         }
                     }
                 }
@@ -111,15 +104,9 @@ class Core
                     $size = sizeof($this->saveValues);
                     foreach (static::$fields as $field => $param) {
                         if ($field == $multiValue) {
-                            $this->saveValues[$size][] = [
-                                'key' => $multiValue,
-                                'value' => $value,
-                            ];
+                            $this->saveValues[$size][$multiValue] = $value;
                         } else {
-                            $this->saveValues[$size][] = [
-                                'key' => $field,
-                                'value' => $this->data->$field,
-                            ];
+                            $this->saveValues[$size][$field] = $this->data->$field;
                         }
                     }
                 }
@@ -130,19 +117,10 @@ class Core
                     $size = sizeof($this->saveValues);
                     foreach (static::$fields as $field => $param) {
                         if ($field == array_values($multiValue)[0]) {
-                            $this->saveValues[$size][] = [
-                                'key' => array_keys($multiValue)[0],
-                                'value' => $value,
-                            ];
-                            $this->saveValues[$size][] = [
-                                'key' => $useMultiValueKeyAs,
-                                'value' => $key,
-                            ];
+                            $this->saveValues[$size][array_keys($multiValue)[0]] = $value;
+                            $this->saveValues[$size][$useMultiValueKeyAs] = $key;
                         } else {
-                            $this->saveValues[$size][] = [
-                                'key' => $field,
-                                'value' => $this->data->$field,
-                            ];
+                            $this->saveValues[$size][$field] = $this->data->$field;
                         }
                     }
                 }
@@ -151,21 +129,16 @@ class Core
                     $size = sizeof($this->saveValues);
                     foreach (static::$fields as $field => $param) {
                         if ($field == array_values($multiValue)[0]) {
-                            $this->saveValues[$size][] = [
-                                'key' => array_keys($multiValue)[0],
-                                'value' => $value,
-                            ];
+                            $this->saveValues[$size][array_keys($multiValue)[0]] = $value;
                         } else {
-                            $this->saveValues[$size][] = [
-                                'key' => $field,
-                                'value' => $this->data->$field,
-                            ];
+                            $this->saveValues[$size][$field] = $this->data->$field;
                         }
                     }
                 }
             }
         }
-        echo "<pre>"; print_r($this->saveValues); echo "</pre>";
+//        echo "<pre>"; print_r($this->saveValues); echo "</pre>";
+//        die();
 //        var_dump($this->saveValues);
 
     }
@@ -183,10 +156,13 @@ class Core
      */
     public function getIdFromSaveValues()
     {
+//        var_dump($this->saveValues);
         foreach ($this->saveValues as &$set) {
-            foreach ($set as $setValue) {
-                if ($setValue['key'] == 'id') {
-                    $this->id = $setValue['value'];
+            foreach ($set as $key => $setValue) {
+                var_dump($key);
+                if ($key == 'id') {
+                    var_dump('asd');
+                    $this->id = $setValue;
                     break;
                 }
             }
@@ -198,11 +174,22 @@ class Core
      */
     public function mapDataToModel()
     {
+//        var_dump($this->saveValues);
         foreach ($this->saveValues as &$set) {
-            foreach ($set as $setValue) {
-                $setValue['key'] = static::$modelMap[$setValue['key']];
+            foreach (static::$modelMap as $modelKey => $modelNewKey) {
+                if (isset($set[$modelKey])) {
+                    $set[$modelNewKey] = $set[$modelKey];
+                    unset($set[$modelKey]);
+                }
             }
+            //            foreach ($set as $key => &$setValue) {
+//
+//                $set[static::$modelMap[$key]] = $setValue;
+//                unset($setValue{$key});
+//                $setValue['key'] = static::$modelMap[$setValue['key']];
+//            }
         }
+//        var_dump($this->saveValues);
     }
 
     /**
@@ -210,24 +197,69 @@ class Core
      */
     public function saveModelObjectFromSaveValues()
     {
-//        if ($this->id) {
-//            $this->update();
-//        }
-//        $this->create();
+        foreach ($this->saveValues as $set) {
+            if ($this->id) {
+                $this->update($set);
+            }
+            $this->create($set);
+        }
     }
 
-    public function create()
+//    public function updateOrCreate($set, $where)
+//    {
+//        $obj = $this->model::where($where)->get()->toArray();
+//        if (empty($obj)) {
+//            var_dump($obj);
+//            $this->create($set);
+//        }
+//    }
+
+    public function delete($id = false, $set = false)
+    {
+        if ($id) {
+            //todo
+        } else if ($set) {
+            $where = [];
+            foreach ($set as $key => $field) {
+                array_push($where, [$key, '=', $field]);
+            }
+            $obj = new $this->model();
+            $obj = $obj::where($where)->first();
+            if (!empty($obj)) {
+                $obj->delete();
+            }
+        }
+
+    }
+
+    //TODO check if object exists
+
+    public function create($set)
     {
         //todo
+        $path = 'App\\' . static::$modelName;
+        $obj = new $path();
+        $where = [];
+        foreach ($set as $key => $field) {
+            array_push($where, [$key, '=', $field]);
+        }
+        $check = $obj::where($where)->first();
+        if ($check) {
+            return;
+        }
+        foreach ($set as $field => $value) {
+            $obj->$field = $value;
+        }
+        $obj->save();
     }
 
-    public function update()
+    public function update($set)
     {
-        $objname = 'App\\' . static::$model;
-        $obj = $objname::find($this->id);
-        foreach ($this->saveValues as $values) {
-            $key = $values['key'];
-            $obj->$key = $values['value'] . '.mp3';
+//        var_dump($this->saveValues);
+//        var_dump('asd');
+        $obj = $this->model::find($this->id);
+        foreach ($set as $key => $value) {
+            $obj->$key = $value;
         }
         $obj->save();
     }

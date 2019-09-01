@@ -14,6 +14,7 @@ class MenuModulCore {
          */
         this.fields = null;
         this.sendValues = {};
+        this.extraParams = {};
         this.menu = {
             container : null,
             contentArea : null,
@@ -58,7 +59,8 @@ class MenuModulCore {
      * @param value
      */
     addValue(field, value) {
-        this.sendValues[field] = value;
+        // this.sendValues[field] = value;
+        this.extraParams[field] = value;
     }
 
     async init() {
@@ -104,14 +106,9 @@ class MenuModulCore {
 
     sendForm() {
         let token = document.head.querySelector("meta[name=csrf-token]").content;
-        // console.log(this.fields)
         let keys = Object.keys(this.fields);
-        // console.log(keys)
-        // console.log(this.content)
         keys.forEach((key) => {
-            // console.log(key)
-            if (this.sendValues.hasOwnProperty(key)) {
-                // console.log('asd')
+            if (this.extraParams.hasOwnProperty(key)) {
                 return;
             }
             this.sendValues[this.content[key].getName()] = this.content[key].collectInputs();
@@ -119,11 +116,10 @@ class MenuModulCore {
         console.log(this.sendValues);
 
         let xhr = new XMLHttpRequest();
+        Object.assign(this.sendValues, this.extraParams);
         xhr.open('POST', this.submitRequest);
         xhr.setRequestHeader('Content-Type', 'application/json');
-        // xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
         xhr.setRequestHeader("X-CSRF-TOKEN", token);
-        // console.log(this.sendValues)
         xhr.send(JSON.stringify(this.sendValues));
 
         //todo проверку обязательных полей

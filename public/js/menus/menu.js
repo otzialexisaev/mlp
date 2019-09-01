@@ -14,7 +14,7 @@ songMenuDropDown.getAnotherPlaylistItem().addEventListener('click', async functi
     let addToPlaylistMenu = new AddToPlaylistMenuModul();
     await addToPlaylistMenu.init();
     let playlistSelect = new PlaylistMultipleSelect('playlistsIds', {songId : songMenuDropDown.getMenuSongId()});
-    addToPlaylistMenu.addValue('songId', songMenuDropDown.getMenuSongId());
+    addToPlaylistMenu.addValue('song_id', songMenuDropDown.getMenuSongId());
     // console.log('after new input');
     addToPlaylistMenu.addContent(playlistSelect);
     await addToPlaylistMenu.show();
