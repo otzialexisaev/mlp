@@ -10,12 +10,9 @@ class InputsCore {
         this.values = {};
 
         this.compiled = document.createElement('div');
-        this.compiled.classList.add('menucore-input-item')
+        this.compiled.classList.add('menucore-input-item');
+        this.items = {};
         // this.compileForm();
-    }
-
-    async compileForm() {
-        // to be overridden in child classes
     }
 
     getCompiled() {
@@ -27,6 +24,10 @@ class InputsCore {
     }
 
     collectInputs() {
+        // to be overridden in child classes
+    }
+
+    async compileForm() {
         // to be overridden in child classes
     }
 

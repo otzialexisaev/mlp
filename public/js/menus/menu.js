@@ -20,8 +20,6 @@ songMenuDropDown.getAnotherPlaylistItem().addEventListener('click', async functi
     await addToPlaylistMenu.show();
 });
 
-
-
 // var dsa = new SongMenuModul();
 // dsa.check();
 // asd.show()

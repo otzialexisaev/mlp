@@ -2,19 +2,17 @@ class MenuModulCore {
 
     constructor(rpc = null) {
         this.rpcFolder = rpc;
-        this.fieldsRequest = "_rpc/forms/" + this.rpcFolder + '/getfields';
-        this.submitRequest = "_rpc/forms/" + this.rpcFolder + '/submit';
+        this.fieldsRequest = "/_rpc/forms/" + this.rpcFolder + '/getfields';
+        this.submitRequest = "/_rpc/forms/" + this.rpcFolder + '/submit';
         this.content = {};
         /**
          * Эти поля получаются из запроса. Добавленные в меню инпуты должны иметь эти поля чтобы потом крутить эти поля
          * и собирать так данные из инпутов.
-         *
-         * Также поля могут быть получены извне сразу в sendValues, на что есть(будет) проверка
-         * //todo
          */
         this.fields = null;
         this.sendValues = {};
         this.extraParams = {};
+        this.contentType = 'application/json';
         this.menu = {
             container : null,
             contentArea : null,
@@ -108,6 +106,7 @@ class MenuModulCore {
         let token = document.head.querySelector("meta[name=csrf-token]").content;
         let keys = Object.keys(this.fields);
         keys.forEach((key) => {
+            console.log(key)
             if (this.extraParams.hasOwnProperty(key)) {
                 return;
             }
@@ -118,7 +117,8 @@ class MenuModulCore {
         let xhr = new XMLHttpRequest();
         Object.assign(this.sendValues, this.extraParams);
         xhr.open('POST', this.submitRequest);
-        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.setRequestHeader('Content-Type', this.contentType);
+        console.log(this.contentType)
         xhr.setRequestHeader("X-CSRF-TOKEN", token);
         xhr.send(JSON.stringify(this.sendValues));
 

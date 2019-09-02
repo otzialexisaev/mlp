@@ -60,7 +60,6 @@ class PlaylistMultipleSelect extends InputsCore {
     }
 
     collectInputs() {
-        //todo
         console.log(this.items)
         this.items.forEach((el, index) => {
             console.log(el)
@@ -92,8 +91,4 @@ class PlaylistMultipleSelect extends InputsCore {
     //     let container = document.createElement('div');
     //
     // }
-
-    getCompiled() {
-        return this.compiled;
-    }
 }

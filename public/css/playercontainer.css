@@ -160,6 +160,42 @@
     /* Cursor on hover */
 }
 
+#top-menu-container {
+    margin: 3px 0px;
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto auto;
+    padding: 10px 10px 10px 10px;
+    grid-gap: 10px;
+    background-color: #5d7ada;
+    border-radius: 4px;
+    height: 50px;
+}
+
+.top-menu-item {
+    width: 100%;
+    height: 30px;
+    min-width: 100%;
+    position: relative;
+    background: rgb(223, 228, 248);
+    text-align: center;
+    border-radius: 10px;
+    font-size: 15px;
+    padding: 10px;
+    transition-duration: 0.7s;
+}
+
+.top-menu-item:hover {
+    background: -webkit-linear-gradient(left, #7F7FD5, #86A8E7, rgb(145, 201, 234));
+    color: white;
+    border-radius: 4px;
+}
+
+.top-menu-item p {
+    margin-top: -5px;
+}
+
 /*@media(max-width:1200px) {*/
 /*#scrubber {*/
 /*width: 510px;*/
