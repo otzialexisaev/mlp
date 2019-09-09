@@ -66,7 +66,7 @@ class PlaylistMultipleSelect extends InputsCore {
             this.values[index] = el.value;
         });
         console.log(this.values)
-        return this.values;
+        return JSON.stringify(this.values);
     }
 
     // async requestPlaylists() {

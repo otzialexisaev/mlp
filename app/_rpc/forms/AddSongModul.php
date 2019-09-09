@@ -12,15 +12,15 @@ class AddSongModul extends Forms\Core
 
     public function submit()
     {
-        var_dump($_FILES);
-//        $this->setData();
-//        $this->dataToSaveValues(['toSave' => 'playlistsIds'], 'playlist_id');
-//        $this->saveModelObjectFromSaveValues();
-    }
-
-    public function setData()
-    {
-
+        $this->setData();
+        $fileDir = base_path().'/public/storage/music/';
+        $targetFile = $fileDir . basename($this->data['files']["name"]);
+        if (move_uploaded_file($this->data['files']['tmp_name'], $targetFile)) {
+            echo 'OK';
+        } else {
+            echo 'NOT OK';
+        }
+        // todo the rest
     }
 }
 

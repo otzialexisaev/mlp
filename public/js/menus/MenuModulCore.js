@@ -103,24 +103,32 @@ class MenuModulCore {
     }
 
     sendForm() {
-        let token = document.head.querySelector("meta[name=csrf-token]").content;
+        let formData = new FormData();
         let keys = Object.keys(this.fields);
         keys.forEach((key) => {
-            console.log(key)
+            // console.log(key)
             if (this.extraParams.hasOwnProperty(key)) {
                 return;
             }
-            this.sendValues[this.content[key].getName()] = this.content[key].collectInputs();
+            formData.append(this.content[key].getName(), this.content[key].collectInputs());
+            // this.sendValues[this.content[key].getName()] = this.content[key].collectInputs();
         });
-        console.log(this.sendValues);
-
+        let extraKeys = Object.keys(this.extraParams);
+        // console.log(extraKeys)
+        extraKeys.forEach((key) => {
+            formData.append(key, this.extraParams[key]);
+        })
+        // console.log(this.sendValues);
+        // console.log(formData);
         let xhr = new XMLHttpRequest();
-        Object.assign(this.sendValues, this.extraParams);
+        // Object.assign(this.sendValues, this.extraParams);
         xhr.open('POST', this.submitRequest);
-        xhr.setRequestHeader('Content-Type', this.contentType);
-        console.log(this.contentType)
+        // xhr.setRequestHeader('Content-Type', this.contentType);
+        // console.log(this.contentType)
+        let token = document.head.querySelector("meta[name=csrf-token]").content;
         xhr.setRequestHeader("X-CSRF-TOKEN", token);
-        xhr.send(JSON.stringify(this.sendValues));
+        // xhr.send(JSON.stringify(this.sendValues));
+        xhr.send(formData);
 
         //todo проверку обязательных полей
 

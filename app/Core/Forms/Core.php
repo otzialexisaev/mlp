@@ -57,9 +57,8 @@ class Core
      */
     public function setData()
     {
-        // получается объект, далее в dataToSaveValues преобразуется в массив
-        $this->data = json_decode(stripslashes(file_get_contents("php://input")));
-//        var_dump($this->data);
+        //todo я теперь посылаю форму а не json надо исправить
+        $this->data = array_merge($_POST, $_FILES);
     }
 
     /**
@@ -79,59 +78,66 @@ class Core
     //todo сделать возможность передть массивом алиас для $multiValue
     public function dataToSaveValues($multiValue = null, $useMultiValueKeyAs = false)
     {
+        //todo так как я теперь послыаю форму то данные приходят архивом а не объектом, исправить
+        // вроде исправил но оставлю пока мало ли
         if (!$multiValue) {
             foreach (static::$fields as $field => $param) {
-                if (isset($this->data->$field)) { //todo проверку на обязательные поля
-                    $this->saveValues[0][$field] = $this->data->$field;
+                if (isset($this->data[$field])) { //todo проверку на обязательные поля
+                    $this->saveValues[0][$field] = $this->data[$field];
                 }
             }
 //            var_dump($this->saveValues);
-        } else if (!is_array($multiValue) && isset($this->data->$multiValue)) {
+        } else if (!is_array($multiValue) && isset($this->data[$multiValue])) {
             if ($useMultiValueKeyAs) {
-                foreach ($this->data->$multiValue as $key => $value) {
+                foreach ($this->data[$multiValue]as $key => $value) {
                     $size = sizeof($this->saveValues);
                     foreach (static::$fields as $field => $param) {
                         if ($field == $multiValue) {
                             $this->saveValues[$size][$multiValue] = $value;
                             $this->saveValues[$size][$useMultiValueKeyAs] = $key;
                         } else {
-                            $this->saveValues[$size][$field] = $this->data->$field;
+                            $this->saveValues[$size][$field] = $this->data[$field];
                         }
                     }
                 }
             } else {
-                foreach ($this->data->$multiValue as $value) {
+                foreach ($this->data[$multiValue] as $value) {
                     $size = sizeof($this->saveValues);
                     foreach (static::$fields as $field => $param) {
                         if ($field == $multiValue) {
                             $this->saveValues[$size][$multiValue] = $value;
                         } else {
-                            $this->saveValues[$size][$field] = $this->data->$field;
+                            $this->saveValues[$size][$field] = $this->data[$field];
                         }
                     }
                 }
             }
-        } else if (is_array($multiValue) && isset($this->data->{array_values($multiValue)[0]})) {
+        } else if (is_array($multiValue) && isset($this->data[array_values($multiValue)[0]])) {
             if ($useMultiValueKeyAs) {
-                foreach ($this->data->{array_values($multiValue)[0]} as $key => $value) {
+                $multiVal = array_values($multiValue)[0];
+                var_dump('check');
+                var_dump($multiVal);
+                var_dump(json_decode($this->data[$multiVal]));
+                //todo убрать json из джски и
+                foreach (json_decode($this->data[$multiVal]) as $key => $value) {
                     $size = sizeof($this->saveValues);
                     foreach (static::$fields as $field => $param) {
                         if ($field == array_values($multiValue)[0]) {
                             $this->saveValues[$size][array_keys($multiValue)[0]] = $value;
                             $this->saveValues[$size][$useMultiValueKeyAs] = $key;
                         } else {
-                            $this->saveValues[$size][$field] = $this->data->$field;
+                            $this->saveValues[$size][$field] = $this->data[$field];
                         }
                     }
                 }
             } else {
-                foreach ($this->data->{array_values($multiValue)[0]} as $value) {
+                foreach ($this->data[array_values($multiValue)[0]] as $value) {
                     $size = sizeof($this->saveValues);
                     foreach (static::$fields as $field => $param) {
                         if ($field == array_values($multiValue)[0]) {
                             $this->saveValues[$size][array_keys($multiValue)[0]] = $value;
                         } else {
-                            $this->saveValues[$size][$field] = $this->data->$field;
+                            $this->saveValues[$size][$field] = $this->data[$field];
                         }
                     }
                 }

@@ -20,11 +20,9 @@ class AddToPlaylistMenuModul extends Forms\Core
     public function saveModelObjectFromSaveValues()
     {
         foreach ($this->saveValues as $set) {
-            var_dump($set);
             echo '<br>';
             if (isset($set['toSave']) && $set['toSave'] == 1) {
                 unset($set['toSave']);
-
                 $this->create($set);
             } else if (isset($set['toSave']) && $set['toSave'] == 0) {
                 unset($set['toSave']);

@@ -24,7 +24,9 @@ class FileUpload extends InputsCore {
         let keys = Object.keys(this.items);
         keys.forEach((key) => {
             // todo переписывается если несколько файлов
-            this.values[key] = this.items[key].files;
+
+            // todo сделать загрузку нескольких файлов
+            this.values = this.items[key].files[0];
         });
         console.log(this.values)
         return this.values;
