@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Song;
+use App\Songs;
 use Illuminate\Http\Request;
 
 class SongsController extends Controller
@@ -14,7 +14,7 @@ class SongsController extends Controller
    */
   public function index()
   {
-    $songs = Song::all();
+    $songs = Songs::all();
     return view('songs.index', ['songs' => $songs]);
   }
 

@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Song extends Model
+class Songs extends Model
 {
   protected $fillable = ['name', 'path'];
-  protected $table = 'song';
+  protected $table = 'songs';
   public $timestamps = false;
 }

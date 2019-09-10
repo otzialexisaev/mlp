@@ -11,7 +11,7 @@ class SongMenuModul extends Forms\Core
     //по имени больше не находит
 
     static public $fields = ['songId' => 'required', 'songName'=>'required'];
-    static public $modelName = 'Song';
+    static public $modelName = 'Songs';
 
     static public $modelMap = [
         'songId' => 'id',
