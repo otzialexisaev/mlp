@@ -35,6 +35,7 @@
 <script src="/js/menus/AddToPlaylistMenuModul.js"></script>
 <script src="/js/menus/SongMenuDropdown.js"></script>
 <script src="/js/menus/SongMenuModul.js"></script>
+<script src="/js/menus/AddPlaylistsModul.js"></script>
 <script src="/js/inputs/InputsCore.js"></script>
 <script src="/js/inputs/Textfield.js"></script>
 <script src="/js/inputs/FileUpload.js"></script>

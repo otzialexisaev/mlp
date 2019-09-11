@@ -15,8 +15,6 @@ class AddSongModul extends Forms\Core
         // todo проверку на пустые данные
         $this->setData();
         $fileDir = '/storage/music/';
-        var_dump($this->data['files']);
-//        die();
         $size = sizeof($this->data['files']['name']);
         for ($i = 0; $i < $size; $i++) {
             $saveAs = $fileDir . basename($this->data['files']["name"][$i]);
@@ -26,19 +24,9 @@ class AddSongModul extends Forms\Core
                 echo 'NOT OK';
             }
         }
-//        foreach ($this->data['files'] as $file) {
-//            $saveAs = $fileDir . basename($file["name"]);
-//            if (move_uploaded_file($file['tmp_name'], $saveAs)) {
-//                echo 'OK';
-//            } else {
-//                echo 'NOT OK';
-//            }
-//        }
-
 
         $this->dataToSaveValues();
         $this->saveModelObjectFromSaveValues();
-        // todo the rest
     }
 
     public function dataToSaveValues($multiValue = null, $useMultiValueKeyAs = false)

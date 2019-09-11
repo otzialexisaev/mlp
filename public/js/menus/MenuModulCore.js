@@ -14,11 +14,11 @@ class MenuModulCore {
         this.extraParams = {};
         this.contentType = 'application/json';
         this.menu = {
-            container : null,
-            contentArea : null,
-            contentItems : null,
+            container: null,
+            contentArea: null,
+            contentItems: null,
             //todo разные дивы для кнопки успеха и отмены вместо одного подвала
-            contentBottom : null,
+            contentBottom: null,
             /**
              * Отображает переданные элементы в блоке инпутов
              * @param el
@@ -84,7 +84,8 @@ class MenuModulCore {
         this.submitBtn = document.createElement('button');
         this.submitBtn.classList.add('btn', 'btn-success');
         this.submitBtn.innerText = 'Применить';
-        this.submitBtn.onclick = () => {
+        this.submitBtn.onclick = (e) => {
+            e.preventDefault();
             this.sendForm();
         };
     }
@@ -109,34 +110,23 @@ class MenuModulCore {
         let formData = new FormData();
         let keys = Object.keys(this.fields);
         keys.forEach((key) => {
-            // console.log(key)
             if (this.extraParams.hasOwnProperty(key)) {
                 return;
             }
             formData = this.appendFormdata(formData, this.content[key]);
-            // this.sendValues[this.content[key].getName()] = this.content[key].collectInputs();
         });
         let extraKeys = Object.keys(this.extraParams);
-        // console.log(extraKeys)
         extraKeys.forEach((key) => {
             formData.append(key, this.extraParams[key]);
-        })
-        // console.log(this.sendValues);
-        // console.log(formData);
+        });
         let xhr = new XMLHttpRequest();
-        // Object.assign(this.sendValues, this.extraParams);
         xhr.open('POST', this.submitRequest);
-        // xhr.setRequestHeader('Content-Type', this.contentType);
-        // console.log(this.contentType)
         let token = document.head.querySelector("meta[name=csrf-token]").content;
         xhr.setRequestHeader("X-CSRF-TOKEN", token);
-        // xhr.send(JSON.stringify(this.sendValues));
         xhr.send(formData);
 
         //todo проверку обязательных полей
-
         //todo xhr class
-
         //todo update songname on page after submit
     }
 
@@ -153,7 +143,7 @@ class MenuModulCore {
         let data = content.collectInputs()
         let keys = Object.keys(data);
         keys.forEach((key) => {
-            formData.append(content.getName()+'[]', data[key]);
+            formData.append(content.getName() + '[]', data[key]);
         });
 
         return formData;
@@ -164,9 +154,7 @@ class MenuModulCore {
      * @param el InputsCore
      */
     addContent(el) {
-        // this.content.push(el);
         this.content[el.getName()] = el;
-        // console.log(this.content)
     }
 
     /**
@@ -177,8 +165,6 @@ class MenuModulCore {
         let keys = Object.keys(this.content);
         for (const key of keys) {
             this.content[key].compileForm().then();
-            // getCompiled() is just an empty div at first before content[key].compileForm() is finished
-            // and .then compiled input is appended to that div.
             this.menu.addItems(this.content[key].getCompiled());
         }
         document.body.appendChild(this.background);
