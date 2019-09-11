@@ -115,6 +115,7 @@ class SongMenuDropdown { //класс прикрепляет кнопку к son
         var self = this;
         for (var i = 0; i < self.songContainers.length; i++) {
             self.songContainers[i].addEventListener('mouseenter', function (e) {
+                // todo возможно можно применить currentContainer
                 let songParentContainer = e.target;
                 let songContainer = songParentContainer.getElementsByClassName('song-container')[0];
                 songContainer.classList.add('song-container-selected');
@@ -152,6 +153,7 @@ class SongMenuDropdown { //класс прикрепляет кнопку к son
         this.currentContainer.appendChild(this.menuBtn);
         this.appendMenu(e.target);
         this.setMenuSongId(this.currentContainer.dataset.songid);
+        this.setMenuSongName(this.currentContainer.dataset.songname);
     }
 
     setMenuSongId(songid) {
@@ -160,5 +162,13 @@ class SongMenuDropdown { //класс прикрепляет кнопку к son
 
     getMenuSongId() {
         return this.menu.dataset.songid;
+    }
+
+    setMenuSongName(songName) {
+        this.menu.dataset.songname = songName;
+    }
+
+    getMenuSongName() {
+        return this.menu.dataset.songname;
     }
 }

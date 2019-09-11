@@ -46,3 +46,7 @@
 .songmenu-submenu-item {
     display: none;
 }
+
+.input-textfield {
+    width: 100%;
+}

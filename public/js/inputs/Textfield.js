@@ -9,10 +9,14 @@ class Textfield extends InputsCore {
         input.setAttribute('name', this.name);
         input.setAttribute('type', 'text');
         input.setAttribute('id', this.name);
+        input.classList.add('input-textfield');
         label.setAttribute('for', this.name);
         label.classList.add('menucore-label');
         if (this.options.label) {
             label.innerText = this.options.label;
+        }
+        if (this.options.value) {
+            input.setAttribute('value', this.options.value);
         }
         this.compiled.appendChild(label);
         this.compiled.appendChild(input);
