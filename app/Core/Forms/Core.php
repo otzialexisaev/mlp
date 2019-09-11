@@ -211,15 +211,6 @@ class Core
         }
     }
 
-//    public function updateOrCreate($set, $where)
-//    {
-//        $obj = $this->model::where($where)->get()->toArray();
-//        if (empty($obj)) {
-//            var_dump($obj);
-//            $this->create($set);
-//        }
-//    }
-
     public function delete($id = false, $set = false)
     {
         if ($id) {

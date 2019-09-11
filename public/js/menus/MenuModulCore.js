@@ -24,7 +24,6 @@ class MenuModulCore {
              * @param el
              */
             addItems(el) {
-                // console.log(el);
                 this.contentItems.appendChild(el);
             },
             addSuccessBtn(btn) {
@@ -37,7 +36,7 @@ class MenuModulCore {
                 this.container = document.createElement('div');
                 this.contentItems = document.createElement('div');
                 this.container.id = 'menucore-container';
-                this.contentArea = document.createElement('div');
+                this.contentArea = document.createElement('form');
                 this.contentBottom = document.createElement('div');
                 this.contentArea.id = 'menucore-content-area';
                 this.contentItems.id = 'menucore-content-items';
@@ -47,7 +46,6 @@ class MenuModulCore {
                 this.contentArea.appendChild(this.contentBottom);
             }
         };
-        // this.init();
     }
 
     /**
@@ -57,7 +55,6 @@ class MenuModulCore {
      * @param value
      */
     addValue(field, value) {
-        // this.sendValues[field] = value;
         this.extraParams[field] = value;
     }
 
@@ -66,6 +63,12 @@ class MenuModulCore {
         this.initBtn();
         this.menu.init();
         this.menu.addSuccessBtn(this.submitBtn);
+        this.menu.contentArea.addEventListener('keydown', event => {
+            if (event.isComposing || event.keyCode === 13) {
+                event.preventDefault();
+                this.sendForm();
+            }
+        });
         await this.getFields();
     }
 
@@ -110,7 +113,7 @@ class MenuModulCore {
             if (this.extraParams.hasOwnProperty(key)) {
                 return;
             }
-            formData.append(this.content[key].getName(), this.content[key].collectInputs());
+            formData = this.appendFormdata(formData, this.content[key]);
             // this.sendValues[this.content[key].getName()] = this.content[key].collectInputs();
         });
         let extraKeys = Object.keys(this.extraParams);
@@ -135,6 +138,25 @@ class MenuModulCore {
         //todo xhr class
 
         //todo update songname on page after submit
+    }
+
+    appendFormdata(formData, content) {
+        return MenuModulCore.appendSingleFormdata(formData, content);
+    }
+
+    static appendSingleFormdata(formData, content) {
+        formData.append(content.getName(), content.collectInputs());
+        return formData;
+    }
+
+    static appendMultipleFormdata(formData, content) {
+        let data = content.collectInputs()
+        let keys = Object.keys(data);
+        keys.forEach((key) => {
+            formData.append(content.getName()+'[]', data[key]);
+        });
+
+        return formData;
     }
 
     /**

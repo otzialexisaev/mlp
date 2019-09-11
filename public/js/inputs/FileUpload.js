@@ -9,6 +9,7 @@ class FileUpload extends InputsCore {
         input.setAttribute('name', this.name);
         input.setAttribute('type', 'file');
         input.setAttribute('id', this.name);
+        input.setAttribute('multiple', 'multiple');
         label.setAttribute('for', this.name);
         label.classList.add('menucore-label');
         if (this.options.label) {
@@ -20,18 +21,13 @@ class FileUpload extends InputsCore {
     }
 
     collectInputs() {
-        console.log(this.items)
         let keys = Object.keys(this.items);
         keys.forEach((key) => {
-            // todo переписывается если несколько файлов
-
-            //todo сделать загрузку нескольких файлов
-            // если юзать просто files то посылается строка [object FileList], что ничего не дает
-            // сделать загрузку массива переданных файлов и ее обработку в пхп
-            this.values = this.items[key].files[0];
-            // this.values = this.items[key].files;
+            let files = this.items[key].files;
+            for (var i = 0; i < files.length; i++) {
+                this.values[i] = files.item(i);
+            }
         });
-        console.log(this.values)
         return this.values;
     }
 }

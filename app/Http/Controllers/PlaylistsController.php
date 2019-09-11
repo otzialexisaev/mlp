@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Playlist;
 use App\PlaylistToSong;
-use App\Song;
+use App\Songs;
 use Illuminate\Http\Request;
 
 class PlaylistsController extends Controller
@@ -90,7 +90,7 @@ class PlaylistsController extends Controller
     {
         //todo
         $relations = PlaylistToSong::where('playlist_id', $id)->pluck('song_id')->toArray();
-        $songs = Song::whereIn('id', $relations)->get();
+        $songs = Songs::whereIn('id', $relations)->get();
         return view('playlists.view', ['songs' => $songs, 'rels' => $relations]);
     }
 

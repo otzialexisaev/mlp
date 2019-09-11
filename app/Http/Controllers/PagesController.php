@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Playlist;
-use App\Song;
+use App\Songs;
 use Illuminate\Http\Request;
 
 class PagesController extends Controller
