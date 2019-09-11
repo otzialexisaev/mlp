@@ -115,9 +115,15 @@ class SongMenuDropdown { //класс прикрепляет кнопку к son
         var self = this;
         for (var i = 0; i < self.songContainers.length; i++) {
             self.songContainers[i].addEventListener('mouseenter', function (e) {
+                let songParentContainer = e.target;
+                let songContainer = songParentContainer.getElementsByClassName('song-container')[0];
+                songContainer.classList.add('song-container-selected');
                 self.appendBtn(e);
             });
             self.songContainers[i].addEventListener('mouseleave', function (e) {
+                let songParentContainer = e.target;
+                let songContainer = songParentContainer.getElementsByClassName('song-container')[0];
+                songContainer.classList.remove('song-container-selected');
                 self.hideBtn(e);
             });
         }

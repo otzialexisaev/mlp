@@ -35,7 +35,7 @@
 }
 
 
-.ost-container .song-container:hover, .selected:hover {
+.selected:hover, .song-container-selected {
     background: -webkit-linear-gradient(left, #7F7FD5, #86A8E7, rgb(145, 201, 234));
     color: white;
     border-radius: 4px;
