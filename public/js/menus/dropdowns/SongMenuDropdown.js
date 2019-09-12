@@ -1,4 +1,6 @@
 class SongMenuDropdown { //класс прикрепляет кнопку к songContainer'ам
+    //todo если нажать сменить имя песни и быстро навестись на другой контейнер до того как меню появилось то
+    // получится будто ты нажал на него
     constructor() {
         this.songContainers = document.getElementsByClassName('song-menu-container');
         this.currentContainer = null;

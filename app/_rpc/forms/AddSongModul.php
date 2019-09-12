@@ -14,7 +14,7 @@ class AddSongModul extends Forms\Core
     {
         // todo проверку на пустые данные
         $this->setData();
-        $fileDir = '/storage/music/';
+        $fileDir = getcwd().'/storage/music/';
         $size = sizeof($this->data['files']['name']);
         for ($i = 0; $i < $size; $i++) {
             $saveAs = $fileDir . basename($this->data['files']["name"][$i]);

@@ -1,2 +1,5 @@
 @php($url = url("/playlists/{$playlist->id}"))
-<a class='playlistIcon' href='{{$url}}'>{{$playlist->name}}</a>
+<div class='playlist-menu-container notextselect' data-link="{{$url}}">
+  {{$playlist->name}}
+  {{--<a href='{{$url}}'>{{$playlist->name}}</a>--}}
+</div>

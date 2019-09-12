@@ -30,18 +30,16 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script src="/js/player/newautoplay.js"></script>
-<script src="/js/menus/MenuModulCore.js"></script>
-<script src="/js/menus/AddSongModul.js"></script>
-<script src="/js/menus/AddToPlaylistMenuModul.js"></script>
-<script src="/js/menus/SongMenuDropdown.js"></script>
-<script src="/js/menus/SongMenuModul.js"></script>
-<script src="/js/menus/AddPlaylistsModul.js"></script>
+<script src="/js/menus/moduls/MenuModulCore.js"></script>
+<script src="/js/menus/moduls/AddSongModul.js"></script>
+<script src="/js/menus/moduls/AddToPlaylistMenuModul.js"></script>
+<script src="/js/menus/moduls/SongMenuModul.js"></script>
+<script src="/js/menus/moduls/AddPlaylistsModul.js"></script>
 <script src="/js/inputs/InputsCore.js"></script>
 <script src="/js/inputs/Textfield.js"></script>
 <script src="/js/inputs/FileUpload.js"></script>
 <script src="/js/inputs/PlaylistMultipleSelect.js"></script>
 <script src="/js/utils/Xhr.js"></script>
-<script src="/js/menus/menu.js"></script>
-<script src="/js/menus/topmenu.js"></script>
+@yield('jsscripts')
 </body>
 </html>
