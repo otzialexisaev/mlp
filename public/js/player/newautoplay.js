@@ -353,6 +353,10 @@ class PlayerInstance {
             return;
         }
         if (!this.songs.nextIndexExists()) {
+            if (!this.switches.bRepeatAll) {
+                return;
+            }
+            this.play(0);
             return;
         }
         let index = this.songs.current.index;
