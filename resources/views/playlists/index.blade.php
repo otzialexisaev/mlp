@@ -3,7 +3,7 @@
     <audio id="audio"></audio>
     @include('player._playercontainer')
     @include('inc.playliststopmenu')
-    <div class="playlist-container">
+    <div class="playlist-grid">
         @each('playlists._playlistContainer', $playlists, 'playlist')
     </div>
 @endsection

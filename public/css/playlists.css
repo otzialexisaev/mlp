@@ -1,4 +1,4 @@
-.playlist-container {
+.playlist-grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     justify-items: center;
@@ -7,7 +7,7 @@
 }
 
 /*same as songs*/
-.playlist-menu-container{
+.playlist-grid-item{
     max-height: 150px;
     min-height: 150px;
     min-width: 150px;
@@ -15,7 +15,6 @@
     background-color: cornflowerblue;
     border: 3px solid black;
     border-radius: 15px;
-    vertical-align: middle;
     justify-content: center;
     color: darkblue;
     font-size: 20px;
@@ -24,9 +23,10 @@
     text-decoration: none !important;
     transition-duration: 0.5s;
     position: relative;
+    overflow: hidden;
 }
 
-.playlist-menu-container:hover {
+.playlist-grid-item:hover {
     background: -webkit-linear-gradient(left, #7F7FD5, #86A8E7, rgb(145, 201, 234));
     color: white;
     border-radius: 4px;
@@ -45,40 +45,31 @@
     z-index: 11;
 }
 
-/*same as songs*/
-#playlists-menu {
-    border-radius: 12px 12px 12px 12px;
-    min-width: 100%;
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    padding-bottom: 10px;
-    padding-top: 10px;
-    z-index: 10;
-    background: #fff1e3;
-    height: 100%;
-    transition-duration: 0.5s;
-}
-
-#playlists-menu:hover {
-    /*font-weight: bold;*/
-    background: #ac4d8f;
-}
-
-#playlist-menu-container {
+#playlist-settings-menu-wrapper {
     display: none;
+    background: #fff1e3;
     position: absolute;
     width: 100%;
     height: 100%;
     top: 0px;
     left: 0px;
+    color: black;
+    transition-duration: 0.5s;
 }
 
-.playlist-menu-item {
-    position: relative;
-    /*background: inherit;*/
-    color: black;
-    padding: 10px;
-    transition-duration: 0.5s;
+#playlist-settings-menu-wrapper:hover {
+    background: #ac4d8f;
+    color: white;
+}
+
+#playlist-settings-menu {
+    display: flex;
     height: 100%;
+    text-align: center;
+    align-items: center;
+}
+
+#playlist-settings-menu p {
+    margin-top: unset;
+    margin-bottom: unset;
 }
