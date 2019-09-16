@@ -8,18 +8,26 @@
     opacity: 0.5;
 }
 
+#menucore-wrapper {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+}
+
 #menucore-container {
-    position: fixed;
+    position: relative;
     width: 70%;
-    min-width: 750px;
     padding: 40px;
     max-height: 70%;
     background: #5d7ada;
-    top: 15%;
+    top: 15vh;
     z-index: 100001;
     border-radius: 10px;
     left: 15%;
     display: flex;
+    min-width: 300px;
 }
 
 #menucore-content-bottom {

@@ -2,7 +2,7 @@ class SongMenuDropdown { //класс прикрепляет кнопку к son
     //todo если нажать сменить имя песни и быстро навестись на другой контейнер до того как меню появилось то
     // получится будто ты нажал на него
     constructor() {
-        this.songContainers = document.getElementsByClassName('song-menu-container');
+        this.songContainers = document.getElementsByClassName('song-wrapper');
         this.currentContainer = null;
         this.menuBtn = null;
         this.menu = null;
@@ -144,7 +144,6 @@ class SongMenuDropdown { //класс прикрепляет кнопку к son
 
     appendBtn(e) {
         for ( let i = 0; i < e.target.childNodes.length; i++ ) {
-            //todo есть класс song-menu-container & songmenu-container исправить
             if (e.target.childNodes[i].nodeName == 'DIV' && e.target.childNodes[i].classList.contains("song-container")) {
                 this.currentContainer = e.target.childNodes[i];
                 break; //break из for а не из функции ну хорош забывать уже

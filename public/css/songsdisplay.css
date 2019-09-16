@@ -1,4 +1,4 @@
-.ost-container {
+.songs-grid {
     margin: 3px 0px;
     display: grid;
     grid-auto-flow: row;
@@ -10,7 +10,7 @@
     border-radius: 4px;
 }
 
-.song-menu-container {
+.song-wrapper {
     position: relative;
     height: 100%;
 }
@@ -25,7 +25,7 @@
     border-radius: 10px;
     font-size: 15px;
     padding: 10px;
-    transition-duration: 0.7s;
+    transition: 0.4s ease-out;
 }
 
 .selected {
@@ -36,7 +36,7 @@
 
 
 .selected:hover, .song-container-selected {
-    background: -webkit-linear-gradient(left, #7F7FD5, #86A8E7, rgb(145, 201, 234));
+    background: #2f53d0 !important;
     color: white;
     border-radius: 4px;
 }

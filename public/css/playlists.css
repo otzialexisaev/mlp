@@ -27,7 +27,7 @@
 }
 
 .playlist-grid-item:hover {
-    background: -webkit-linear-gradient(left, #7F7FD5, #86A8E7, rgb(145, 201, 234));
+    background: #1595ea;
     color: white;
     border-radius: 4px;
 }

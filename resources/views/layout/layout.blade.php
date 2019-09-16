@@ -7,10 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>Document</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    {{--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"--}}
+          {{--integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">--}}
 
     {{--<link rel="javascript" href="{{ asset('js/player/newautoplay.js') }}">--}}
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/main.css') }}">
     <link rel="stylesheet" href="{{ asset('css/playercontainer.css') }}">
     <link rel="stylesheet" href="{{ asset('css/songsdisplay.css') }}">
     <link rel="stylesheet" href="{{ asset('css/playlists.css') }}">
@@ -19,7 +21,7 @@
     {{--<link rel="stylesheet" href="{{ asset('css/test.css') }}">--}}
 </head>
 <body>
-<div class="container" style="min-width: 960px">
+<div class="container">
     @include('inc.navbar')
     @yield('content')
 </div>

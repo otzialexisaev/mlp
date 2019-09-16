@@ -12,7 +12,7 @@ class Playlist extends Model
   static public function displayPlaylists()
   {
     $playlists = Playlist::all();
-    echo "<div class='ost-container'>";
+    echo "<div class='songs-grid'>";
     foreach ($playlists as $playlist) {
       $playlist->displayOne();
     }

@@ -83,15 +83,19 @@
 
 .songInfoContainer .titlePlusTime {
     display: flex;
+    justify-content: space-between;
     margin-top: 2px;
 }
 
 #songTitle {
-    flex-grow: 1;
+    /*flex-grow: 1;*/
+    white-space: nowrap;
     overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #songTime {
+    flex-shrink: 0;
     /*float: right;*/
 }
 

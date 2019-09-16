@@ -3,7 +3,7 @@
     <audio id="audio"></audio>
     @include('player._playercontainer')
     @include('inc.songstopmenu')
-    <div class='ost-container'>
+    <div class='songs-grid'>
         @each('songs._songContainer', $songs, 'song')
     </div>
 @endsection

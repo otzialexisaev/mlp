@@ -13,6 +13,7 @@ class MenuModulCore {
         this.extraParams = {};
         this.contentType = 'application/json';
         this.menu = {
+            wrapper: null,
             container: null,
             contentArea: null,
             contentItems: null,
@@ -32,17 +33,21 @@ class MenuModulCore {
              * Создает области для инпутов
              */
             init() {
+                this.wrapper = document.createElement('div');
                 this.container = document.createElement('div');
                 this.contentItems = document.createElement('div');
+                this.wrapper.id = 'menucore-wrapper';
+
                 this.container.id = 'menucore-container';
                 this.contentArea = document.createElement('form');
                 this.contentBottom = document.createElement('div');
                 this.contentArea.id = 'menucore-content-area';
                 this.contentItems.id = 'menucore-content-items';
-                this.container.appendChild(this.contentArea);
-                this.contentBottom.id = 'menucore-content-bottom';
                 this.contentArea.appendChild(this.contentItems);
                 this.contentArea.appendChild(this.contentBottom);
+                this.container.appendChild(this.contentArea);
+                this.wrapper.appendChild(this.container);
+                this.contentBottom.id = 'menucore-content-bottom';
             }
         };
     }
@@ -166,11 +171,11 @@ class MenuModulCore {
             this.menu.addItems(this.content[key].getCompiled());
         }
         document.body.appendChild(this.background);
-        document.body.appendChild(this.menu.container);
+        document.body.appendChild(this.menu.wrapper);
     }
 
     close() {
         document.body.removeChild(this.background);
-        document.body.removeChild(this.menu.container);
+        document.body.removeChild(this.menu.wrapper);
     }
 }
