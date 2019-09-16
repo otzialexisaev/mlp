@@ -10,7 +10,6 @@ class MenuModulCore {
          * и собирать так данные из инпутов.
          */
         this.fields = null;
-        this.sendValues = {};
         this.extraParams = {};
         this.contentType = 'application/json';
         this.menu = {
@@ -58,7 +57,7 @@ class MenuModulCore {
         this.extraParams[field] = value;
     }
 
-    async init() {
+    init() {
         this.initBackground();
         this.initBtn();
         this.menu.init();
@@ -66,10 +65,9 @@ class MenuModulCore {
         this.menu.contentArea.addEventListener('keydown', event => {
             if (event.isComposing || event.keyCode === 13) {
                 event.preventDefault();
-                this.sendForm();
+                this.getFields().then(() => this.sendForm());
             }
         });
-        await this.getFields();
     }
 
     initBackground() {
@@ -86,7 +84,7 @@ class MenuModulCore {
         this.submitBtn.innerText = 'Применить';
         this.submitBtn.onclick = (e) => {
             e.preventDefault();
-            this.sendForm();
+            this.getFields().then(() => this.sendForm());
         };
     }
 

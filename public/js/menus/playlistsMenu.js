@@ -13,8 +13,8 @@ playlistsMenuDropDown.menu.addEventListener('click', async function (e) {
 let playlistContainers = document.getElementsByClassName('playlist-grid-item');
 for (let playlist of playlistContainers) {
     playlist.addEventListener('click', (el) => {
-        console.log(el)
+        // console.log(el)
         window.location.href = '/playlists/'+el.target.dataset.id;
-    console.log(el)
+    // console.log(el)
     })
 }
