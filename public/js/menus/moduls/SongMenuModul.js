@@ -1,5 +1,5 @@
 class SongMenuModul extends MenuModulCore {
-    constructor() {
-        super('songmenumodul');
+    constructor(options = null) {
+        super('songmenumodul', options);
     }
 }

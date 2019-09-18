@@ -127,7 +127,7 @@ class SongMenuDropdown { //класс прикрепляет кнопку к son
                 let songParentContainer = e.target;
                 let songContainer = songParentContainer.getElementsByClassName('song-container')[0];
                 songContainer.classList.remove('song-container-selected');
-                self.hideBtn(e);
+                self.hideBtn();
             });
         }
         this.menuBtn.addEventListener('click', function() {
@@ -136,7 +136,9 @@ class SongMenuDropdown { //класс прикрепляет кнопку к son
         });
     }
 
-    hideBtn(e) {
+    hideBtn() {
+        this.menuBtn.style.display = 'none';
+        if (!this.currentContainer) return;
         this.currentContainer.style.zIndex = 1;
         this.currentContainer = null;
         this.toggleMenu(true);

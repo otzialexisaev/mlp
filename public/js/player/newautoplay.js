@@ -9,6 +9,10 @@ class PlayerInstance {
             },
             setCurrent(current, width) {
                 // this.instance.duration = duration;
+                if (isNaN((this.instance.duration / 100) *
+                    ((current / width) * 100))) {
+                    return;
+                }
                 this.instance.currentTime =
                     (this.instance.duration / 100) *
                     ((current / width) * 100)

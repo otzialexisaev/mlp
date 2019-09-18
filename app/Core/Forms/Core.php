@@ -40,6 +40,11 @@ class Core
         return static::$fields;
     }
 
+    static public function getModelMap()
+    {
+        return static::$modelMap;
+    }
+
     public function submit()
     {
         $this->setData();
@@ -86,10 +91,9 @@ class Core
                     $this->saveValues[0][$field] = $this->data[$field];
                 }
             }
-//            var_dump($this->saveValues);
         } else if (!is_array($multiValue) && isset($this->data[$multiValue])) {
             if ($useMultiValueKeyAs) {
-                foreach ($this->data[$multiValue]as $key => $value) {
+                foreach ($this->data[$multiValue] as $key => $value) {
                     $size = sizeof($this->saveValues);
                     foreach (static::$fields as $field => $param) {
                         if ($field == $multiValue) {
@@ -115,9 +119,6 @@ class Core
         } else if (is_array($multiValue) && isset($this->data[array_values($multiValue)[0]])) {
             if ($useMultiValueKeyAs) {
                 $multiVal = array_values($multiValue)[0];
-                var_dump('check');
-                var_dump($multiVal);
-                var_dump(json_decode($this->data[$multiVal]));
                 //todo убрать json из джски и
                 foreach (json_decode($this->data[$multiVal]) as $key => $value) {
                     $size = sizeof($this->saveValues);
@@ -143,18 +144,6 @@ class Core
                 }
             }
         }
-//        echo "<pre>"; print_r($this->saveValues); echo "</pre>";
-//        die();
-//        var_dump($this->saveValues);
-
-    }
-
-    /**
-     * Преобразование полученных данных из реквеста в готовые к записи данные.
-     */
-    public function setSaveValues()
-    {
-
     }
 
     /**
@@ -180,7 +169,6 @@ class Core
      */
     public function mapDataToModel()
     {
-//        var_dump($this->saveValues);
         foreach ($this->saveValues as &$set) {
             foreach (static::$modelMap as $modelKey => $modelNewKey) {
                 if (isset($set[$modelKey])) {
@@ -188,14 +176,7 @@ class Core
                     unset($set[$modelKey]);
                 }
             }
-            //            foreach ($set as $key => &$setValue) {
-//
-//                $set[static::$modelMap[$key]] = $setValue;
-//                unset($setValue{$key});
-//                $setValue['key'] = static::$modelMap[$setValue['key']];
-//            }
         }
-//        var_dump($this->saveValues);
     }
 
     /**
@@ -211,22 +192,41 @@ class Core
         }
     }
 
-    public function delete($id = false, $set = false)
+    /**
+     * Удаление объекта
+     *
+     * @param bool $id
+     * @param bool $set //todo or not
+     */
+    static public function delete($id = false, $set = false)
     {
         if ($id) {
-            //todo
+            static::deleteId($id);
         } else if ($set) {
             $where = [];
             foreach ($set as $key => $field) {
                 array_push($where, [$key, '=', $field]);
             }
-            $obj = new $this->model();
+            $model = 'App\\' . static::$modelName;
+            $obj = new $model();
             $obj = $obj::where($where)->first();
             if (!empty($obj)) {
                 $obj->delete();
             }
         }
 
+    }
+
+    /**
+     * Удаление элемента по id
+     *
+     * @param $id
+     */
+    static public function deleteId($id)
+    {
+        $model = 'App\\' . static::$modelName;
+        $obj = $model::find($id);
+        $obj->delete();
     }
 
     //TODO check if object exists
@@ -252,8 +252,6 @@ class Core
 
     public function update($set)
     {
-//        var_dump($this->saveValues);
-//        var_dump('asd');
         $obj = $this->model::find($this->id);
         foreach ($set as $key => $value) {
             $obj->$key = $value;

@@ -1,5 +1,5 @@
 class PlaylistSettingsModul extends MenuModulCore {
-    constructor() {
-        super('playlistsettingsmodul');
+    constructor(options = {}) {
+        super('playlistsettingsmodul', options);
     }
 }

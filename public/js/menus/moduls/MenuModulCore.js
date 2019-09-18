@@ -1,17 +1,23 @@
 class MenuModulCore {
 
-    constructor(rpc = null) {
+    constructor(rpc = null, options = []) {
         this.rpcFolder = rpc;
         this.fieldsRequest = "/_rpc/forms/" + this.rpcFolder + '/getfields';
         this.submitRequest = "/_rpc/forms/" + this.rpcFolder + '/submit';
+        this.deleteRequest = "/_rpc/forms/" + this.rpcFolder + '/delete';
+        this.modelMapRequest = "/_rpc/forms/" + this.rpcFolder + '/getModelMap';
         this.content = {};
         /**
          * Эти поля получаются из запроса. Добавленные в меню инпуты должны иметь эти поля чтобы потом крутить эти поля
          * и собирать так данные из инпутов.
          */
         this.fields = null;
+        this.modelMap = null;
+        this.options = options;
         this.extraParams = {};
         this.contentType = 'application/json';
+        this.submitBtn = null;
+        this.deleteBtn = null;
         this.menu = {
             wrapper: null,
             container: null,
@@ -27,6 +33,9 @@ class MenuModulCore {
                 this.contentItems.appendChild(el);
             },
             addSuccessBtn(btn) {
+                this.contentBottom.appendChild(btn);
+            },
+            addDeleteBtn(btn) {
                 this.contentBottom.appendChild(btn);
             },
             /**
@@ -64,9 +73,14 @@ class MenuModulCore {
 
     init() {
         this.initBackground();
-        this.initBtn();
+        this.initSuccessBtn();
+        this.initDeleteBtn();
         this.menu.init();
         this.menu.addSuccessBtn(this.submitBtn);
+        console.log(this.options)
+        if (this.options['deleteBtn']) {
+            this.menu.addDeleteBtn(this.deleteBtn);
+        }
         this.menu.contentArea.addEventListener('keydown', event => {
             if (event.isComposing || event.keyCode === 13) {
                 event.preventDefault();
@@ -83,7 +97,7 @@ class MenuModulCore {
         };
     }
 
-    initBtn() {
+    initSuccessBtn() {
         this.submitBtn = document.createElement('button');
         this.submitBtn.classList.add('btn', 'btn-success');
         this.submitBtn.innerText = 'Применить';
@@ -93,12 +107,22 @@ class MenuModulCore {
         };
     }
 
+    initDeleteBtn() {
+        this.deleteBtn = document.createElement('button');
+        this.deleteBtn.classList.add('btn', 'btn-error');
+        this.deleteBtn.innerText = 'Удалить';
+        this.deleteBtn.onclick = (e) => {
+            e.preventDefault();
+            this.deleteObject();
+        };
+    }
+
     /**
      * Запрашивает поля у пхп класса с таким же именем поля, которые дожны содержаться в форме.
      * //todo проверка на эти поля
      */
     getFields() {
-        return new Promise(((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             let xhr = new XMLHttpRequest();
             xhr.open('GET', this.fieldsRequest, true);
             xhr.onload = () => {
@@ -106,7 +130,42 @@ class MenuModulCore {
                 resolve();
             };
             xhr.send();
-        }));
+        });
+    }
+
+    getModelMap() {
+        return new Promise((resolve, reject) => {
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', this.modelMapRequest);
+            xhr.onload = () => {
+                this.modelMap = JSON.parse(xhr.response);
+                resolve();
+            };
+            xhr.send();
+        });
+    }
+
+    async deleteObject() {
+        await this.getModelMap();
+        console.log(this.modelMap);
+        let keys = Object.keys(this.modelMap)
+        let idKey = null;
+        keys.forEach((key) => {
+            if (this.modelMap[key] === 'id') {
+                idKey = key;
+            }
+        });
+        if (!this.extraParams[idKey]) {
+            if (this.extraParams['id']) {
+                idKey = 'id';
+            } else {
+                return;
+            }
+        }
+        console.log(this.extraParams[idKey])
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', this.deleteRequest+'?id='+this.extraParams[idKey]);
+        xhr.send();
     }
 
     sendForm() {

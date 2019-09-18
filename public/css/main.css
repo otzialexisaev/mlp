@@ -5,6 +5,7 @@
 
 .container {
     max-width: 960px;
+    min-width: 600px;
     margin: auto;
 }
 
@@ -38,7 +39,24 @@
     color: gray;
 }
 
+.btn {
+    border-radius: 10px;
+    height: 32px;
+    width: 100px;
+    background-color: rgb(223, 228, 248);
+    border-style: none;
+}
 
+.btn-error {
+    float: right;
+    background-color: #f6d5d5;
+    color: gray;
+}
+
+.btn-success {
+    float: left;
+    background-color: #96e9a9;
+}
 
 /*@media (max-width: 1000px) {*/
     /*body {*/

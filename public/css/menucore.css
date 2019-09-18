@@ -17,7 +17,7 @@
 }
 
 #menucore-container {
-    position: relative;
+    position: fixed;
     width: 70%;
     padding: 40px;
     max-height: 70%;
@@ -25,9 +25,12 @@
     top: 15vh;
     z-index: 100001;
     border-radius: 10px;
-    left: 15%;
+    margin: auto;
     display: flex;
     min-width: 300px;
+    max-width: 800px;
+    left: 0px;
+    right: 0px;
 }
 
 #menucore-content-bottom {

@@ -1,6 +1,6 @@
 class AddToPlaylistMenuModul extends MenuModulCore {
 
-    constructor() {
-        super('addtoplaylistmenumodul');
+    constructor(options = {}) {
+        super('addtoplaylistmenumodul', options);
     }
 }

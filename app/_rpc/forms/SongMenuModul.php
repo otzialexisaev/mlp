@@ -14,6 +14,13 @@ class SongMenuModul extends Forms\Core
         'songName' => 'name',
     ];
 
+    static public function deleteId($id)
+    {
+        $model = 'App\\' . static::$modelName;
+        $obj = $model::find($id);
+        unlink(substr($obj->path,1));
+        $obj->delete();
+    }
 }
 
 

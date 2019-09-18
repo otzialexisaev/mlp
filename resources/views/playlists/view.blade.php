@@ -8,5 +8,5 @@
 @endsection
 @section('jsscripts')
     <script src="/js/menus/dropdowns/SongMenuDropdown.js"></script>
-    <script src="/js/menus/menu.js"></script>
+    <script src="/js/menus/songsmenudropdown.js"></script>
 @endsection

@@ -1,6 +1,6 @@
 let songMenuDropDown = new SongMenuDropdown();
 songMenuDropDown.getSettingsItem().addEventListener('click', async function () {
-    let songMenuModul = new SongMenuModul();
+    let songMenuModul = new SongMenuModul({deleteBtn: true});
     await songMenuModul.init();
     songMenuModul.addValue('songId', songMenuDropDown.getMenuSongId());
     let songNameField = new Textfield('songName', {label : 'Название', value : songMenuDropDown.getMenuSongName()});
