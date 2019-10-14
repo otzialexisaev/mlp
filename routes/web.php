@@ -27,3 +27,7 @@ Route::get('/_rpc/forms/{form}/getfields', 'RpcController@getFields');
 Route::get('/_rpc/forms/{form}/getModelMap', 'RpcController@getModelMap');
 Route::get('/_rpc/forms/{form}/delete', 'RpcController@delete');
 Route::get('/_rpc/playlists/getPlaylists', 'PlaylistsController@getPlaylists');
+Route::get('/schedule', 'ScheduleController@index');
+Route::get('/schedule/create', 'ScheduleController@create');
+Route::post('/schedule/create', 'ScheduleController@create');
+Route::get('/schedule/{date}', 'ScheduleController@view');

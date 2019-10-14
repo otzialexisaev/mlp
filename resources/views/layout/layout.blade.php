@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="{{ asset('css/songsdisplay.css') }}">
     <link rel="stylesheet" href="{{ asset('css/playlists.css') }}">
     <link rel="stylesheet" href="{{ asset('css/songmenu.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/calendar.css') }}">
     <link rel="stylesheet" href="{{ asset('css/menucore.css') }}">
     {{--<link rel="stylesheet" href="{{ asset('css/test.css') }}">--}}
 </head>
