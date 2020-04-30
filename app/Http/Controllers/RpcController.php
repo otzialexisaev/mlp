@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 class RpcController extends Controller
 {
+    public function test()
+    {
+        require_once $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . "test.php";
+    }
+
     public function formSubmit($form)
     {
         if (file_exists(app_path("_rpc/forms/{$form}.php"))) {
             $classname = '\\App\\_rpc\\forms\\' . $form;
             isset($_REQUEST['id'])
-                ? $form = new $classname($_REQUEST['id'])
-                : $form = new $classname();
+            ? $form = new $classname($_REQUEST['id'])
+            : $form = new $classname();
             $fields = $form->submit();
             //todo response
             echo json_encode($fields);

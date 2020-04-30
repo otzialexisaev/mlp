@@ -411,6 +411,7 @@ class ComposerStaticInitbca05740e23c1ed02d61c988dac4c2cf
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
+        'App\\Schedule' => __DIR__ . '/../..' . '/app/Schedule.php',
         'App\\Songs' => __DIR__ . '/../..' . '/app/Songs.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
         'App\\_rpc\\forms\\AddPlaylistsModul' => __DIR__ . '/../..' . '/app/_rpc/forms/AddPlaylistsModul.php',

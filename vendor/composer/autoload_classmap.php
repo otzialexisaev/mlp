@@ -37,6 +37,7 @@ return array(
     'App\\Providers\\BroadcastServiceProvider' => $baseDir . '/app/Providers/BroadcastServiceProvider.php',
     'App\\Providers\\EventServiceProvider' => $baseDir . '/app/Providers/EventServiceProvider.php',
     'App\\Providers\\RouteServiceProvider' => $baseDir . '/app/Providers/RouteServiceProvider.php',
+    'App\\Schedule' => $baseDir . '/app/Schedule.php',
     'App\\Songs' => $baseDir . '/app/Songs.php',
     'App\\User' => $baseDir . '/app/User.php',
     'App\\_rpc\\forms\\AddPlaylistsModul' => $baseDir . '/app/_rpc/forms/AddPlaylistsModul.php',
